@@ -614,9 +614,12 @@ function initFonologicoGames() {
 
         function loadQuizExample() {
             const data = quizExamples[currentIndex];
-            document.getElementById('s-quiz-title').innerText = data.title;
-            document.getElementById('s-quiz-level-indicator').innerText = `Ejemplo ${currentIndex + 1} de 3`;
-            document.getElementById('s-quiz-next').style.display = 'none';
+            const titleElem = document.getElementById('s-quiz-title');
+            if (titleElem) titleElem.innerText = data.title;
+            const indicatorElem = document.getElementById('s-quiz-level-indicator');
+            if (indicatorElem) indicatorElem.innerText = `Ejemplo ${currentIndex + 1} de 3`;
+            const nextBtn = document.getElementById('s-quiz-next');
+            if (nextBtn) nextBtn.style.display = 'none';
 
             const colors = ['blue', 'red', 'orange', 'green'];
             let gridHtml = '';
@@ -756,10 +759,14 @@ function initFonologicoGames() {
 
         function loadSaExample() {
             const data = saExamples[currentIndex];
-            document.getElementById('sa-level-indicator').innerText = `Ejemplo ${currentIndex + 1} de 3`;
-            document.getElementById('sa-word-display').innerText = data.blank;
-            document.getElementById('sa-illustration-container').innerHTML = data.markup;
-            document.getElementById('sa-next').style.display = 'none';
+            const indicatorElem = document.getElementById('sa-level-indicator');
+            if (indicatorElem) indicatorElem.innerText = `Ejemplo ${currentIndex + 1} de 3`;
+            const displayElem = document.getElementById('sa-word-display');
+            if (displayElem) displayElem.innerText = data.blank;
+            const containerElem = document.getElementById('sa-illustration-container');
+            if (containerElem) containerElem.innerHTML = data.markup;
+            const nextBtn = document.getElementById('sa-next');
+            if (nextBtn) nextBtn.style.display = 'none';
 
             // Mezclar aleatoriamente las opciones (shuffle)
             const shuffledOptions = [...data.options].sort(() => Math.random() - 0.5);
