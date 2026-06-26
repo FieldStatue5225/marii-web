@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Sala de Computación</title>
+    <!-- Google Fonts for premium technical look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@100..900&family=Space+Grotesk:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="dashboard-wrapper">
+        <!-- Background decorative grid / blueprint pattern for visual depth -->
+        <div class="blueprint-grid"></div>
+
+        <!-- Technical layout lines -->
+        <!-- Vertical solid lines -->
+        <div class="tech-line-v tech-line-v-left"></div>
+        <div class="tech-line-v tech-line-v-right"></div>
+        
+        <!-- Horizontal dashed lines -->
+        <div class="tech-line-h tech-line-h-top">
+            <span class="tech-label tech-label-top">SALA DE COMPUTACIÓN</span>
+        </div>
+        
+        <div class="tech-line-h tech-line-h-bottom">
+            <span class="tech-label tech-label-bottom">
+                <span class="weather-title">Temperatura Calbuco</span>
+                <span class="weather-reading">
+                    <span id="temp-value">--</span>°C
+                    <span id="weather-icon" class="weather-icon">⏳</span>
+                </span>
+            </span>
+        </div>
+        
+        <!-- Intersection marks (+) -->
+        <div class="tech-intersection intersection-top-left">+</div>
+        <div class="tech-intersection intersection-top-right">+</div>
+        <div class="tech-intersection intersection-bottom-left">+</div>
+        <div class="tech-intersection intersection-bottom-right">+</div>
+
+        <!-- Main screen content -->
+        <main class="dashboard-content">
+            <div class="clock-widget">
+                <!-- Large time display -->
+                <div class="time-container">
+                    <span id="clock-hours">00</span><span class="time-colon">:</span><span id="clock-minutes">00</span>
+                </div>
+                
+                <!-- Stacked date display -->
+                <div class="date-container">
+                    <div class="date-row" id="date-day">
+                        <span class="date-number">00</span>
+                        <span class="date-weekday">DOMINGO</span>
+                    </div>
+                    <div class="date-row" id="date-month">ENERO</div>
+                    <div class="date-row" id="date-year">2026</div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="dashboard.js"></script>
+</body>
+</html>

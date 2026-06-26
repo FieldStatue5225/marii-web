@@ -248,6 +248,70 @@ function playClapSound() {
     }
 }
 
+// Sonido táctil de clic sintetizado por Web Audio API
+function playClickSound() {
+    try {
+        const ctx = getAudioContext();
+        if (ctx.state === 'suspended') ctx.resume();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(600, now);
+        osc.frequency.exponentialRampToValueAtTime(150, now + 0.05);
+        gain.gain.setValueAtTime(0.08, now);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.05);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.06);
+    } catch (e) {
+        console.error('Error al reproducir audio de click:', e);
+    }
+}
+
+// Desbloquear AudioContext y SpeechSynthesis en navegadores móviles/Safari con la primera interacción del usuario
+function unlockAudio() {
+    try {
+        const ctx = getAudioContext();
+        if (ctx && ctx.state === 'suspended') {
+            ctx.resume().then(() => {
+                console.log('AudioContext desbloqueado con éxito.');
+            });
+        }
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance('');
+            utterance.volume = 0; // Silencioso
+            window.speechSynthesis.speak(utterance);
+            console.log('SpeechSynthesis desbloqueado con éxito.');
+        }
+    } catch (e) {
+        console.warn('Error al desbloquear el audio:', e);
+    }
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+}
+document.addEventListener('click', unlockAudio);
+document.addEventListener('touchstart', unlockAudio);
+
+// Enlazar sonido táctil de clic a todos los botones interactivos del sitio
+document.addEventListener('click', function(e) {
+    const target = e.target.closest('button, .cloze-word, .cloze-dropzone, .speaker-btn, .sa-speaker-main, #clap-btn, .navbar-link, .guide-card-btn, .sequence-card');
+    if (target) {
+        if (target.classList.contains('game-reset-btn') || 
+            target.classList.contains('game-next-btn') || 
+            target.classList.contains('navbar-link') || 
+            target.classList.contains('guide-card-btn') || 
+            target.classList.contains('speaker-btn') || 
+            target.classList.contains('sa-speaker-main') || 
+            target.id === 'sa-speaker' ||
+            target.id === 'clap-btn') {
+            playClickSound();
+        }
+    }
+});
+
 // Precargar voces del sistema de forma asíncrona para que estén listas al usar speakWord
 let systemVoices = [];
 function loadSystemVoices() {
@@ -263,94 +327,101 @@ if ('speechSynthesis' in window) {
 }
 
 function speakWord(text) {
-    if ('speechSynthesis' in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(text);
-        utterance.lang = 'es-ES';
-        utterance.rate = 0.85;
-        
-        // Obtener voces disponibles (usar precargadas o intentar recargar si está vacío)
-        let voices = systemVoices;
-        if (!voices || voices.length === 0) {
-            voices = window.speechSynthesis.getVoices();
-        }
-        
-        if (voices && voices.length > 0) {
-            // Filtrar voces en español (por código de idioma o por palabras clave en el nombre)
-            const spanishVoices = voices.filter(v => 
-                v.lang.toLowerCase().startsWith('es') || 
-                v.name.toLowerCase().includes('español') || 
-                v.name.toLowerCase().includes('spanish')
-            );
+    try {
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            if (window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+            }
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'es-ES';
+            utterance.rate = 0.85;
             
-            if (spanishVoices.length > 0) {
-                // Nombres comunes de voces femeninas en español en macOS, iOS, Windows, Android y navegadores
-                const femaleNames = [
-                    'monica', 'paulina', 'marisol', 'angelica', 'helena', 
-                    'sabina', 'siri', 'female', 'femenina', 'yolanda', 
-                    'soledad', 'francisca', 'paola', 'isabela', 'alva', 
-                    'daria', 'yelda', 'laura', 'marta', 'sofia', 
-                    'lucia', 'elena', 'carmen', 'valeria', 'conchita', 
-                    'elsa', 'google' // Google español suele ser femenina
-                ];
+            // Obtener voces disponibles (usar precargadas o intentar recargar si está vacío)
+            let voices = systemVoices;
+            if (!voices || voices.length === 0) {
+                voices = window.speechSynthesis.getVoices();
+            }
+            
+            if (voices && voices.length > 0) {
+                // Filtrar voces en español (por código de idioma o por palabras clave en el nombre)
+                const spanishVoices = voices.filter(v => 
+                    v.lang.toLowerCase().startsWith('es') || 
+                    v.name.toLowerCase().includes('español') || 
+                    v.name.toLowerCase().includes('spanish')
+                );
                 
-                // Voces explícitamente masculinas para evitar
-                const maleNames = ['jorge', 'diego', 'juan', 'carlos', 'miguel', 'julio', 'javier', 'male', 'masculino'];
-                
-                // Calcular un puntaje para cada voz para priorizar voces de alta calidad (Premium / Enhanced / Natural / Neural)
-                const scoredVoices = spanishVoices.map(v => {
-                    let score = 0;
-                    const nameLower = v.name.toLowerCase();
+                if (spanishVoices.length > 0) {
+                    // Nombres comunes de voces femeninas en español en macOS, iOS, Windows, Android y navegadores
+                    const femaleNames = [
+                        'monica', 'paulina', 'marisol', 'angelica', 'helena', 
+                        'sabina', 'siri', 'female', 'femenina', 'yolanda', 
+                        'soledad', 'francisca', 'paola', 'isabela', 'alva', 
+                        'daria', 'yelda', 'laura', 'marta', 'sofia', 
+                        'lucia', 'elena', 'carmen', 'valeria', 'conchita', 
+                        'elsa', 'google' // Google español suele ser femenina
+                    ];
                     
-                    // Prioridad por género femenino
-                    if (femaleNames.some(name => nameLower.includes(name))) {
-                        score += 200;
+                    // Voces explícitamente masculinas para evitar
+                    const maleNames = ['jorge', 'diego', 'juan', 'carlos', 'miguel', 'julio', 'javier', 'male', 'masculino'];
+                    
+                    // Calcular un puntaje para cada voz para priorizar voces de alta calidad (Premium / Enhanced / Natural / Neural)
+                    const scoredVoices = spanishVoices.map(v => {
+                        let score = 0;
+                        const nameLower = v.name.toLowerCase();
+                        
+                        // Prioridad por género femenino
+                        if (femaleNames.some(name => nameLower.includes(name))) {
+                            score += 200;
+                        }
+                        
+                        // Penalización por género masculino
+                        if (maleNames.some(name => nameLower.includes(name))) {
+                            score -= 200;
+                        }
+                        
+                        // Gran bonus para voces mejoradas/premium o neurales/naturales (suenan mucho más humanas)
+                        if (nameLower.includes('enhanced') || 
+                            nameLower.includes('mejorada') || 
+                            nameLower.includes('premium') || 
+                            nameLower.includes('natural') || 
+                            nameLower.includes('google') ||
+                            nameLower.includes('neural')) {
+                            score += 300;
+                        }
+                        
+                        // Pequeño bonus para dialecto de España o México
+                        if (v.lang.toLowerCase() === 'es-es' || v.lang.toLowerCase() === 'es-mx') {
+                            score += 10;
+                        }
+                        
+                        return { voice: v, score: score };
+                    });
+                    
+                    // Ordenar por puntaje descendente
+                    scoredVoices.sort((a, b) => b.score - a.score);
+                    
+                    let selectedVoice = null;
+                    if (scoredVoices.length > 0) {
+                        selectedVoice = scoredVoices[0].voice;
                     }
                     
-                    // Penalización por género masculino
-                    if (maleNames.some(name => nameLower.includes(name))) {
-                        score -= 200;
+                    if (selectedVoice) {
+                        utterance.voice = selectedVoice;
+                        console.log('Voz en español seleccionada para "' + text + '":', selectedVoice.name, '(' + selectedVoice.lang + ') - Score:', scoredVoices[0].score);
                     }
-                    
-                    // Gran bonus para voces mejoradas/premium o neurales/naturales (suenan mucho más humanas)
-                    if (nameLower.includes('enhanced') || 
-                        nameLower.includes('mejorada') || 
-                        nameLower.includes('premium') || 
-                        nameLower.includes('natural') || 
-                        nameLower.includes('google') ||
-                        nameLower.includes('neural')) {
-                        score += 300;
-                    }
-                    
-                    // Pequeño bonus para dialecto de España o México
-                    if (v.lang.toLowerCase() === 'es-es' || v.lang.toLowerCase() === 'es-mx') {
-                        score += 10;
-                    }
-                    
-                    return { voice: v, score: score };
-                });
-                
-                // Ordenar por puntaje descendente
-                scoredVoices.sort((a, b) => b.score - a.score);
-                
-                let selectedVoice = null;
-                if (scoredVoices.length > 0) {
-                    selectedVoice = scoredVoices[0].voice;
-                }
-                
-                if (selectedVoice) {
-                    utterance.voice = selectedVoice;
-                    console.log('Voz en español seleccionada para "' + text + '":', selectedVoice.name, '(' + selectedVoice.lang + ') - Score:', scoredVoices[0].score);
+                } else {
+                    console.warn('No se encontraron voces en español. Voces del sistema:', voices.map(v => `${v.name} [${v.lang}]`));
                 }
             } else {
-                console.warn('No se encontraron voces en español. Voces del sistema:', voices.map(v => `${v.name} [${v.lang}]`));
+                console.warn('La lista de voces de speechSynthesis está vacía en este navegador.');
             }
-        } else {
-            console.warn('La lista de voces de speechSynthesis está vacía en este navegador.');
+            
+            window.speechSynthesis.speak(utterance);
+            return utterance;
         }
-        
-        window.speechSynthesis.speak(utterance);
-        return utterance;
+    } catch (e) {
+        console.error('Error en speakWord (síntesis de voz):', e);
     }
     return null;
 }
@@ -858,9 +929,11 @@ function initFonologicoGames() {
         function unflipMemoryCards() {
             lockBoard = true;
             setTimeout(() => {
-                playErrorSound();
-                firstCard.classList.remove('flipped');
-                secondCard.classList.remove('flipped');
+                if (firstCard && secondCard) {
+                    playErrorSound();
+                    firstCard.classList.remove('flipped');
+                    secondCard.classList.remove('flipped');
+                }
                 resetMemoryState();
             }, 1200);
         }
