@@ -1101,6 +1101,111 @@ function initFonologicoGames() {
 
         loadClappingExample();
     }
+
+    // ----------------------------------------------------
+    // 5. Juego de Identifica el Sonido
+    // ----------------------------------------------------
+    const soundIdCard = document.getElementById('sound-id-card');
+    if (soundIdCard) {
+        const soundIdExamples = [
+            {
+                sound: "S",
+                audioText: "ssss",
+                options: ["S", "M", "P"],
+                correct: "S"
+            },
+            {
+                sound: "F",
+                audioText: "fffff",
+                options: ["T", "F", "V"],
+                correct: "F"
+            },
+            {
+                sound: "R",
+                audioText: "rrrrr",
+                options: ["L", "D", "R"],
+                correct: "R"
+            }
+        ];
+        let currentIndex = 0;
+
+        const indicatorElem = document.getElementById('sound-id-level-indicator');
+        const speakerBtn = document.getElementById('sound-id-speaker');
+        const optionsContainer = document.getElementById('sound-id-options-container');
+        const nextBtn = document.getElementById('sound-id-next');
+
+        function loadSoundIdExample() {
+            const data = soundIdExamples[currentIndex];
+            if (indicatorElem) indicatorElem.innerText = `Ejemplo ${currentIndex + 1} de 3`;
+            if (nextBtn) nextBtn.style.display = 'none';
+
+            // Mezclar opciones
+            const shuffledOptions = [...data.options].sort(() => Math.random() - 0.5);
+
+            const colors = ['blue', 'red', 'orange'];
+            let optionsHtml = '';
+            shuffledOptions.forEach((opt, idx) => {
+                const color = colors[idx % colors.length];
+                optionsHtml += `<button class="sound-id-opt-btn ${color}" data-letter="${opt}">${opt}</button>`;
+            });
+            optionsContainer.innerHTML = optionsHtml;
+
+            bindSoundIdEvents();
+        }
+
+        function bindSoundIdEvents() {
+            const data = soundIdExamples[currentIndex];
+            const optionButtons = soundIdCard.querySelectorAll('.sound-id-opt-btn');
+
+            speakerBtn.onclick = function() {
+                speakerBtn.classList.add('speaking');
+                const safetyTimeout = setTimeout(() => {
+                    speakerBtn.classList.remove('speaking');
+                }, 1500);
+
+                const utterance = speakWord(data.audioText);
+                if (utterance) {
+                    utterance.onend = function() {
+                        clearTimeout(safetyTimeout);
+                        speakerBtn.classList.remove('speaking');
+                    };
+                    utterance.onerror = function() {
+                        clearTimeout(safetyTimeout);
+                        speakerBtn.classList.remove('speaking');
+                    };
+                } else {
+                    clearTimeout(safetyTimeout);
+                    speakerBtn.classList.remove('speaking');
+                }
+            };
+
+            optionButtons.forEach(btn => {
+                btn.onclick = function() {
+                    const letterSelected = this.getAttribute('data-letter');
+                    optionButtons.forEach(b => b.classList.remove('correct', 'incorrect'));
+
+                    if (letterSelected === data.correct) {
+                        playSuccessSound();
+                        this.classList.add('correct');
+                        speakWord(`¡Excelente! El sonido es de la letra ${data.correct}.`);
+                        nextBtn.style.display = 'inline-flex';
+                    } else {
+                        playErrorSound();
+                        this.classList.add('incorrect');
+                        speakWord("Inténtalo de nuevo.");
+                        setTimeout(() => this.classList.remove('incorrect'), 1000);
+                    }
+                };
+            });
+        }
+
+        nextBtn.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % soundIdExamples.length;
+            loadSoundIdExample();
+        });
+
+        loadSoundIdExample();
+    }
 }
 
 // ===== JUEGOS DE MORFOSINTAXIS =====
@@ -1528,7 +1633,7 @@ function initMorfosintacticoGames() {
         const ttsBtn = document.getElementById('pragmatic-speak-btn');
         let optionsLocked = false;
 
-        function loadPragmaticScenario() {
+        function loadPragmaticScenario(autoSpeak = true) {
             const data = scenarios[currentPragIndex];
             titleElem.innerText = data.title;
             document.getElementById('pragmatic-level-indicator').innerText = `Ejemplo ${currentPragIndex + 1} de ${scenarios.length}`;
@@ -1565,8 +1670,10 @@ function initMorfosintacticoGames() {
 
             bindPragmaticEvents();
             
-            // Hablar consigna inicial
-            speakWord(data.speechPrompt);
+            // Hablar consigna inicial solo si no es carga inicial automática
+            if (autoSpeak) {
+                speakWord(data.speechPrompt);
+            }
         }
 
         function bindPragmaticEvents() {
@@ -1603,10 +1710,10 @@ function initMorfosintacticoGames() {
 
         nextBtn.addEventListener('click', () => {
             currentPragIndex = (currentPragIndex + 1) % scenarios.length;
-            loadPragmaticScenario();
+            loadPragmaticScenario(true);
         });
 
-        loadPragmaticScenario();
+        loadPragmaticScenario(false);
     }
 
     // ==========================================================================
@@ -1794,9 +1901,10 @@ function initMorfosintacticoGames() {
             const card = section.querySelector('.game-card');
             if (!card) return;
 
-            // Encontrar el botón de redirección existente para rescatar el link y texto original
+            // Encontrar el botón de redirección existente para rescatar el link, texto y clase original
             let originalLink = '#';
             let originalText = 'Iniciar Actividad ↗';
+            let originalClass = 'game-secondary-btn'; // Fallback
 
             const wordwallLink = card.querySelector('.wordwall-link-btn, .game-secondary-btn[href*="wordwall"]');
             const educaplayLink = card.querySelector('.educaplay-link-btn, .game-secondary-btn[href*="educaplay"]');
@@ -1804,14 +1912,21 @@ function initMorfosintacticoGames() {
             if (wordwallLink) {
                 originalLink = wordwallLink.getAttribute('href');
                 originalText = wordwallLink.innerText;
+                originalClass = 'wordwall-link-btn';
             } else if (educaplayLink) {
                 originalLink = educaplayLink.getAttribute('href');
                 originalText = educaplayLink.innerText;
+                originalClass = 'educaplay-link-btn';
             } else {
                 const anyLink = card.querySelector('a');
                 if (anyLink) {
                     originalLink = anyLink.getAttribute('href');
                     originalText = anyLink.innerText;
+                    if (anyLink.classList.contains('wordwall-link-btn')) {
+                        originalClass = 'wordwall-link-btn';
+                    } else if (anyLink.classList.contains('educaplay-link-btn')) {
+                        originalClass = 'educaplay-link-btn';
+                    }
                 }
             }
 
@@ -1842,7 +1957,7 @@ function initMorfosintacticoGames() {
                 <div class="game-controls-row" style="margin-bottom: 15px;">
                     <button class="game-next-btn" id="next-${sectionId}" style="display: none;">Siguiente Ejemplo ➔</button>
                 </div>
-                <a href="${originalLink}" target="_blank" rel="noopener" class="game-secondary-btn" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; display: inline-flex;">
+                <a href="${originalLink}" target="_blank" rel="noopener" class="${originalClass}" style="width: 100%; text-align: center; justify-content: center; box-sizing: border-box; display: inline-flex; margin-top: 15px;">
                     ${originalText}
                 </a>
             `;

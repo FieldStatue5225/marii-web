@@ -1682,75 +1682,198 @@ body.terracotta-theme .mock-educaplay-logo {
     align-items: center;
     justify-content: center;
     gap: 6px;
-    padding: 8px 16px;
+    padding: 14px;
     margin-top: 14px;
-    border-radius: 10px;
-    border: 2px solid #4e1f13;
+    border-radius: 12px;
+    border: 2.5px solid #4e1f13;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 1.15rem;
     cursor: pointer;
     background: #ffffff;
     color: #4e1f13;
-    box-shadow: 0 3px 0 #4e1f13;
+    box-shadow: 0 4px 0 #4e1f13;
     text-decoration: none;
     transition: all 0.15s;
     user-select: none;
-    width: auto;
-    align-self: center;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .game-secondary-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 0 #4e1f13;
+    box-shadow: 0 6px 0 #4e1f13;
 }
 
 .game-secondary-btn:active {
     transform: translateY(2px);
-    box-shadow: 0 1px 0 #4e1f13;
+    box-shadow: 0 2px 0 #4e1f13;
 }
 
 .dark-terracotta-section .game-secondary-btn {
     border-color: #ffffff;
     background: #4e1f13;
     color: #ffffff;
-    box-shadow: 0 3px 0 #ffffff;
+    box-shadow: 0 4px 0 #ffffff;
 }
 
 .dark-terracotta-section .game-secondary-btn:hover {
-    box-shadow: 0 5px 0 #ffffff;
+    box-shadow: 0 6px 0 #ffffff;
 }
 
 .dark-terracotta-section .game-secondary-btn:active {
-    box-shadow: 0 1px 0 #ffffff;
+    box-shadow: 0 2px 0 #ffffff;
 }
 
 body.purple-theme .game-secondary-btn {
     border-color: #2d0b4e;
     color: #2d0b4e;
-    box-shadow: 0 3px 0 #2d0b4e;
+    box-shadow: 0 4px 0 #2d0b4e;
 }
 
 body.purple-theme .game-secondary-btn:hover {
-    box-shadow: 0 5px 0 #2d0b4e;
+    box-shadow: 0 6px 0 #2d0b4e;
 }
 
 body.purple-theme .game-secondary-btn:active {
-    box-shadow: 0 1px 0 #2d0b4e;
+    box-shadow: 0 2px 0 #2d0b4e;
 }
 
 .dark-purple-section .game-secondary-btn {
     border-color: #ffffff;
     background: #2d0b4e;
     color: #ffffff;
-    box-shadow: 0 3px 0 #ffffff;
+    box-shadow: 0 4px 0 #ffffff;
 }
 
 .dark-purple-section .game-secondary-btn:hover {
-    box-shadow: 0 5px 0 #ffffff;
+    box-shadow: 0 6px 0 #ffffff;
 }
 
 .dark-purple-section .game-secondary-btn:active {
-    box-shadow: 0 1px 0 #ffffff;
+    box-shadow: 0 2px 0 #ffffff;
+}
+
+body.green-theme .game-secondary-btn {
+    border-color: #1b4d3e;
+    color: #1b4d3e;
+    box-shadow: 0 4px 0 #1b4d3e;
+}
+
+body.green-theme .game-secondary-btn:hover {
+    box-shadow: 0 6px 0 #1b4d3e;
+}
+
+body.green-theme .game-secondary-btn:active {
+    box-shadow: 0 2px 0 #1b4d3e;
+}
+
+.dark-green-section .game-secondary-btn {
+    border-color: #ffffff;
+    background: #1b4d3e;
+    color: #ffffff;
+    box-shadow: 0 4px 0 #ffffff;
+}
+
+.dark-green-section .game-secondary-btn:hover {
+    box-shadow: 0 6px 0 #ffffff;
+}
+
+.dark-green-section .game-secondary-btn:active {
+    box-shadow: 0 2px 0 #ffffff;
+}
+
+/* Juego 4: Identificar el Sonido */
+.mock-sound-id-game {
+    background: #fdfaf6;
+    border: 2.5px solid #2d0b4e;
+    border-radius: 18px;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 22px;
+}
+
+.sound-id-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+}
+
+.sound-id-speaker-btn {
+    background: #ffffff;
+    border: 2.5px solid #2d0b4e;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 2.2rem;
+    box-shadow: 0 4px 0 #2d0b4e;
+    transition: all 0.2s;
+    user-select: none;
+    padding: 0;
+}
+
+.sound-id-speaker-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #2d0b4e;
+}
+
+.sound-id-speaker-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 0 #2d0b4e;
+}
+
+.sound-id-speaker-btn.speaking {
+    animation: speaker-pulse-purple 0.6s infinite alternate;
+}
+
+@keyframes speaker-pulse-purple {
+    0% { transform: scale(1); box-shadow: 0 4px 0 #2d0b4e; }
+    100% { transform: scale(1.08); box-shadow: 0 6px 12px rgba(45, 11, 78, 0.25); }
+}
+
+.sound-id-placeholder {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #555555;
+    text-align: center;
+}
+
+.sound-id-options {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.sound-id-opt-btn {
+    padding: 14px;
+    border: 2.5px solid #2d0b4e;
+    border-radius: 12px;
+    font-size: 1.4rem;
+    font-weight: 800;
+    cursor: pointer;
+    color: white;
+    text-align: center;
+    transition: all 0.2s;
+    box-shadow: 0 4px 0 #2d0b4e;
+    user-select: none;
+}
+
+.sound-id-opt-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #2d0b4e;
+}
+
+.sound-id-opt-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #2d0b4e;
 }
 
 /* Deletrear con Aplausos (Clapping) */

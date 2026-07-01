@@ -246,19 +246,30 @@
 
                     <!-- Columna Derecha: Actividades/Juegos -->
                     <div class="activity-games-column">
-                        <!-- Recurso Educaplay -->
-                        <div class="game-card">
+                        <!-- Juego 4: Identifica el sonido -->
+                        <div class="game-card" id="sound-id-card">
                             <div class="game-info">
-                                <span class="game-title">Identifica el sonido (Educaplay)</span>
-                                <p class="game-description">Actividad lúdica interactiva de discriminación de fonemas en Educaplay.</p>
+                                <span class="game-title">Identifica el sonido</span>
+                                <p class="game-description">Presiona el botón de reproducción para escuchar el sonido del fonema y selecciona la letra correcta.</p>
                             </div>
-                            <div class="mock-educaplay-logo">
-                                <div class="educaplay-banner" aria-hidden="true">
-                                    <span class="educaplay-text-logo">educaplay</span>
-                                    <span class="educaplay-tagline">Recursos Educativos</span>
+                            <div class="game-level-header">
+                                <span class="game-level-indicator" id="sound-id-level-indicator">Ejemplo 1 de 3</span>
+                            </div>
+                            <div class="mock-sound-id-game">
+                                <div class="sound-id-display">
+                                    <button class="sound-id-speaker-btn" id="sound-id-speaker" aria-label="Escuchar fonema">🔊</button>
+                                    <div class="sound-id-placeholder">¿Qué letra suena así?</div>
                                 </div>
-                                <a href="https://www.educaplay.com/learning-resources/29141593-identifica_el_sonido.html" target="_blank" rel="noopener" class="educaplay-link-btn">Iniciar Actividad en Educaplay ↗</a>
+                                <div class="sound-id-options" id="sound-id-options-container">
+                                    <!-- Inyectado dinámicamente -->
+                                </div>
                             </div>
+                            <div class="game-controls-row" style="margin-bottom: 15px;">
+                                <button class="game-next-btn" id="sound-id-next" style="display: none;">
+                                    Siguiente Ejemplo ➔
+                                </button>
+                            </div>
+                            <a href="https://www.educaplay.com/learning-resources/29141593-identifica_el_sonido.html" target="_blank" rel="noopener" class="game-secondary-btn educaplay-link-btn" style="margin-top: 15px;">Jugar en Educaplay ↗</a>
                         </div>
 
                         <!-- Juego de Aplausos -->
