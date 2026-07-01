@@ -78,13 +78,40 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 50);
     }
 
+    // Helper para verificar si un enlace apunta a la página actual
+    function isCurrentPage(targetUrl) {
+        try {
+            const currentUrl = new URL(window.location.href);
+            const target = new URL(targetUrl, window.location.href);
+            
+            const cleanCurrentPath = currentUrl.pathname.replace(/\/$/, "").toLowerCase();
+            const cleanTargetPath = target.pathname.replace(/\/$/, "").toLowerCase();
+            
+            if (cleanCurrentPath === cleanTargetPath) return true;
+            
+            // Caso especial de raíz y de index.html
+            const isCurrentHome = cleanCurrentPath === "" || cleanCurrentPath.endsWith("index.html") || cleanCurrentPath.endsWith("marii-web");
+            const isTargetHome = cleanTargetPath === "" || cleanTargetPath.endsWith("index.html") || cleanTargetPath.endsWith("marii-web");
+            if (isCurrentHome && isTargetHome) return true;
+        } catch (e) {
+            console.error(e);
+        }
+        return false;
+    }
+
     // --- 3. ANIMACIÓN CIRCULAR AL HACER CLICK EN ENLACES DE LA NAVBAR ---
     const transitionLinks = document.querySelectorAll('.navbar-link, .navbar-title-link');
     transitionLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             const href = this.getAttribute('href');
             
-            if (href && !href.startsWith('#') && href !== window.location.pathname.split('/').pop()) {
+            if (href && !href.startsWith('#')) {
+                // Si ya estamos en la página del enlace, no hacer nada
+                if (isCurrentPage(href)) {
+                    e.preventDefault();
+                    return;
+                }
+                
                 e.preventDefault();
                 
                 // Forzar que la animación empiece del centro de la pantalla
