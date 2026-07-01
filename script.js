@@ -1827,7 +1827,7 @@ function initMorfosintacticoGames() {
                 </div>
                 <div class="game-level-header">
                     <span class="game-level-indicator" id="indicator-${sectionId}">Ejemplo 1 de 2</span>
-                    <button class="game-speak-btn" id="speak-${sectionId}" title="Escuchar">🔊 Escuchar</button>
+                    <button class="game-speak-btn" id="speak-${sectionId}" title="Escuchar">🔊</button>
                 </div>
                 <div class="mock-pragmatic-game" style="border-color: inherit; margin-bottom: 15px;">
                     <div class="pragmatic-chat-container" id="game-arena-${sectionId}" style="min-height: auto; padding: 15px; background: #fffdfc;">
