@@ -60,26 +60,16 @@ body.green-theme .navbar {
     padding-bottom: 16px;
 }
 
-/* Forzar que el título esté perfectamente centrado en el medio de la pantalla */
-.navbar-left-links {
-    width: 280px;
-    display: flex;
-    justify-content: flex-start;
-    gap: 20px;
-}
-
-.navbar-right-links {
-    width: 280px;
-    display: flex;
-    justify-content: flex-end;
-    gap: 20px;
-}
-
 .navbar-title-link {
     text-decoration: none;
     color: inherit;
-    flex-grow: 1;
-    text-align: center;
+    text-align: left;
+}
+
+.navbar-right-links {
+    display: flex;
+    align-items: center;
+    gap: 35px;
 }
 
 .navbar-title {
@@ -2490,9 +2480,8 @@ body.terracotta-theme .game-card:hover {
         padding-bottom: 12px;
     }
 
-    .navbar-left-links,
     .navbar-right-links {
-        width: 220px; /* Reducir ancho en tabletas */
+        gap: 20px; /* Reducir separación en tabletas */
     }
 
     .navbar-title {
@@ -2893,7 +2882,6 @@ body.green-theme .pragmatic-opt-btn:active {
         padding-bottom: 10px;
     }
 
-    .navbar-left-links,
     .navbar-right-links {
         width: auto !important; /* Desactivar anchos fijos en móviles */
         order: 2; /* Enlaces abajo */
