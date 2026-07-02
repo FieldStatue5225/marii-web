@@ -262,16 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (href && !href.startsWith('#')) {
                 const rightLinks = document.querySelector('.navbar-right-links');
 
-                // Si ya estamos en la página del enlace, no hacer nada
-                if (isCurrentPage(href)) {
-                    e.preventDefault();
-                    if (window.innerWidth <= 600 && rightLinks) {
-                        rightLinks.classList.remove('menu-active');
-                    }
-                    return;
-                }
-
-                // CASO ESPECIAL EN MÓVIL PARA EL TÍTULO DE LA NAVBAR
+                // CASO ESPECIAL EN MÓVIL PARA EL TÍTULO DE LA NAVBAR (se comprueba antes de isCurrentPage)
                 if (this.classList.contains('navbar-title-link') && window.innerWidth <= 600) {
                     if (rightLinks && !rightLinks.classList.contains('menu-active')) {
                         // Prevenir la navegación y abrir/mostrar los enlaces del menú
@@ -280,6 +271,15 @@ document.addEventListener('DOMContentLoaded', function() {
                         rightLinks.classList.add('menu-active');
                         return; // Detener flujo
                     }
+                }
+
+                // Si ya estamos en la página del enlace, no hacer nada
+                if (isCurrentPage(href)) {
+                    e.preventDefault();
+                    if (window.innerWidth <= 600 && rightLinks) {
+                        rightLinks.classList.remove('menu-active');
+                    }
+                    return;
                 }
                 
                 e.preventDefault();
