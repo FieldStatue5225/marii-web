@@ -1695,6 +1695,14 @@ function initMorfosintacticoGames() {
         },
 
         // --- PRAGMÁTICO ---
+        "seccion-actos-habla": {
+            type: "quiz",
+            title: "Demo: Actos de Habla",
+            examples: [
+                { text: "Dices: '¡Qué lindo día para jugar!' buscando que tu amigo salga al patio. ☀️", question: "¿Qué tipo de acto de habla es?", options: ["Acto indirecto (petición sutil)", "Acto directo (orden clara)", "Ninguno"], correct: "Acto indirecto (petición sutil)", speech: "Dices: qué lindo día para jugar buscando que tu amigo salga al patio. ¿Qué tipo de acto de habla es?", success: "¡Excelente! Expresas tu deseo de forma indirecta y sutil.", error: "No. No diste una orden directa, sino que sugeriste sutilmente." },
+                { text: "El profesor dice: 'Abran su cuaderno en la página diez.' 📖", question: "¿Qué tipo de acto de habla es?", options: ["Acto directo (orden clara)", "Acto indirecto (sugerencia)", "Ninguno"], correct: "Acto directo (orden clara)", speech: "El profesor dice: abran su cuaderno en la página diez. ¿Qué tipo de acto de habla es?", success: "¡Muy bien! Es una instrucción clara y directa de lo que debes hacer.", error: "No, es una orden directa y explícita, no una sugerencia." }
+            ]
+        },
         "seccion-miremos-siente": {
             type: "quiz",
             title: "Demo: Reconocer Emociones",
@@ -1703,12 +1711,12 @@ function initMorfosintacticoGames() {
                 { text: "Sofía cruza los brazos y frunce el ceño. 😠", question: "¿Cómo se siente Sofía?", options: ["Asustada", "Enojada", "Alegre"], correct: "Enojada", speech: "Sofía cruza los brazos y frunce el ceño. ¿Cómo se siente Sofía?", success: "¡Correcto! Esa postura corporal denota enfado.", error: "Esa expresión facial no indica miedo o alegría." }
             ]
         },
-        "seccion-kinesica": {
+        "seccion-proxemica": {
             type: "quiz",
-            title: "Demo: Expresión Corporal",
+            title: "Demo: Espacio Personal (Proxémica)",
             examples: [
-                { text: "Colocar el dedo índice sobre los labios. 🤫", question: "¿Qué significa este gesto?", options: ["Pedir silencio", "Saludar", "Tener sueño"], correct: "Pedir silencio", speech: "Colocar el dedo índice sobre los labios. ¿Qué significa?", success: "¡Muy bien! Es el gesto universal para pedir silencio.", error: "Ese gesto no se usa para saludar o dormir." },
-                { text: "Mover la mano abierta de un lado a otro. 👋", question: "¿Qué significa este gesto?", options: ["Tener frío", "Decir hola o adiós", "Pedir comida"], correct: "Decir hola o adiós", speech: "Mover la mano abierta de un lado a otro. ¿Qué significa?", success: "¡Excelente! Es un saludo o despedida.", error: "No se asocia con frío o comida." }
+                { text: "Tu amigo te está hablando y se acerca tanto que casi toca tu nariz. 👃", question: "¿Qué espacio está invadiendo?", options: ["Tu espacio personal", "Tu espacio público", "Tu espacio escolar"], correct: "Tu espacio personal", speech: "Tu amigo te habla de tan cerca que casi toca tu nariz. ¿Qué espacio está invadiendo?", success: "¡Muy bien! Debemos respetar el espacio personal íntimo de cada uno.", error: "No. El espacio inmediato alrededor de nuestro cuerpo es el espacio personal." },
+                { text: "Al conversar con alguien en el patio del colegio. 👥", question: "Al conversar con alguien en el patio, ¿a qué distancia es adecuado pararse?", options: ["A un paso de distancia (distancia cómoda)", "Pegado a él tocando su hombro", "A cinco metros de distancia (muy lejos)"], correct: "A un paso de distancia (distancia cómoda)", speech: "Al conversar con alguien en el patio, ¿a qué distancia es adecuado pararse?", success: "¡Excelente! Mantener un paso de distancia es cómodo y respetuoso.", error: "No. Estar demasiado pegado o extremadamente lejos dificulta la conversación." }
             ]
         },
         "seccion-manejo-turnos": {
