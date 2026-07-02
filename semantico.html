@@ -3,103 +3,91 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nivel Léxico-Semántico - Nivel de Lenguaje</title>
-    
-    <!-- Google Fonts: Outfit, Fredoka y Comic Neue -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:ital,wght@0,300;0,400;0,700;1,400&family=Fredoka:wght@300..700&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
-    
-    <!-- Favicon de conejos -->
+    <title>Nivel Semántico - Niveles de Lenguaje</title>
     <link rel="icon" type="image/png" href="img/illustrations/conejos.png">
-    
     <link rel="stylesheet" href="styles.css">
 </head>
 <body class="amber-theme">
-    <!-- Overlay de Transición Circular -->
-    <div class="page-transition-overlay" aria-hidden="true">
-        <div class="transition-text">Nivel de Lenguaje</div>
-    </div>
+    <!-- OVERLAY DE TRANSICIÓN CIRCULAR -->
+    <div class="page-transition-overlay expanding" aria-hidden="true"></div>
 
-    <!-- ENCABEZADO Y NAVBAR -->
-    <header class="header-container">
-        <nav class="navbar">
+    <!-- NAVBAR - APARECE EN TODAS LAS PÁGINAS -->
+    <nav class="navbar">
+        <div class="navbar-container">
             <a href="index.html" class="navbar-title-link">
-                <span class="navbar-title">Nivel de Lenguaje</span>
+                <h1 class="navbar-title">Nivel de Lenguaje</h1>
             </a>
-            <div class="navbar-menu">
+            <div class="navbar-right-links">
                 <a href="fonologico.html" class="navbar-link">Fonológico</a>
                 <a href="morfosintactico.html" class="navbar-link">Morfosintáctico</a>
-                <a href="semantico.html" class="navbar-link active">Semántico</a>
+                <a href="semantico.html" class="navbar-link">Semántico</a>
                 <a href="pragmatico.html" class="navbar-link">Pragmático</a>
             </div>
-            <div class="navbar-line"></div>
-        </nav>
-
-        <!-- Rayado neobrutalista con el título -->
-        <div class="striped-header-container">
-            <div class="striped-header">
-                <h2>Nivel Léxico-Semántico</h2>
-            </div>
         </div>
-    </header>
+        <div class="navbar-line"></div>
+    </nav>
 
     <!-- CONTENIDO PRINCIPAL -->
-    <main>
-        <div class="main-container">
-            <!-- Descripción Pedagógica del Nivel -->
-            <section class="welcome-section" style="margin-bottom: 50px;">
-                <h3 class="welcome-title">¿Qué es el Nivel Léxico-Semántico?</h3>
-                <div class="welcome-text-container">
-                    <p class="welcome-text">
-                        Este nivel del lenguaje se relaciona directamente con el <strong>vocabulario</strong> y el <strong>significado de las palabras</strong>. Nos permite comprender que una misma palabra puede tener múltiples interpretaciones según el contexto en el que se use (polisemia) y organizar de forma mental los elementos del mundo por categorías o familias semánticas (categorización).
-                    </p>
-                </div>
-            </section>
-
-            <!-- SECCIÓN 1: Palabras Polisémicas (Fondo Claro) -->
-            <section class="activity-section" id="seccion-polisemia">
-                <h3 class="activity-section-title">1. Palabras Polisémicas (Polisemias)</h3>
-                <div class="activity-content-grid">
-                    <!-- Columna Izquierda: Ficha Técnica -->
-                    <div class="activity-card-container">
-                        <ul class="metadata-list">
-                            <li class="metadata-item"><span class="metadata-label">Instrucción:</span> Identificar el significado correcto de palabras con más de una definición de acuerdo al contexto de la oración.</li>
-                            <li class="metadata-item"><span class="metadata-label">Habilidad:</span> Polisemia (Léxico-Semántico).</li>
-                            <li class="metadata-item"><span class="metadata-label">Edad:</span> 5 a 7 años.</li>
-                            <li class="metadata-item"><span class="metadata-label">Nivel de dificultad:</span> Medio.</li>
-                            <li class="metadata-item"><span class="metadata-label">Objetivo:</span> Desarrollar la comprensión del doble significado de términos comunes adaptándose al contexto semántico de la oración.</li>
-                            <li class="metadata-item"><span class="metadata-label">Estrategia utilizada:</span> Asociación contextual e imágenes mentales.</li>
-                        </ul>
-                        <div class="metadata-how-to">
-                            <span class="metadata-how-to-title">¿Cómo aplicarla?</span>
-                            <p class="metadata-item">El profesional lee una oración que contiene una palabra polisémica (ej: "banco", "bota", "carta") y guía al estudiante mediante preguntas u opciones visuales para descubrir el sentido adecuado.</p>
-                        </div>
-                    </div>
-
-                    <!-- Columna Derecha: Actividades/Juegos -->
-                    <div class="activity-games-column">
-                        <div class="game-card">
-                            <div class="game-info">
-                                <span class="game-title">Palabras Polisémicas (Wordwall)</span>
-                                <p class="game-description">Actividad lúdica interactiva en Wordwall para relacionar palabras con múltiples significados.</p>
-                            </div>
-                            <div class="mock-educaplay-logo">
-                                <div class="educaplay-banner" style="border-color:#1a73e8;" aria-hidden="true">
-                                    <span class="educaplay-text-logo" style="color:#1a73e8;">wordwall</span>
-                                    <span class="educaplay-tagline">Recursos Interactivos</span>
-                                </div>
-                                <a href="https://wordwall.net/resource/115304850" target="_blank" rel="noopener" class="wordwall-link-btn">Iniciar Actividad ↗</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <main class="main-content" style="padding: 40px 0 0 0;">
+        <!-- CABECERA LISTADA -->
+        <div class="striped-header-container">
+            <div class="striped-header">
+                <h2>Semántico</h2>
+            </div>
         </div>
 
+        <!-- DESCRIPCIÓN DEL NIVEL LÉXICO-SEMÁNTICO -->
+        <section class="activity-section" style="margin-bottom: 30px;">
+            <div class="activity-card-container" style="background: #ffffff; width: 100%; box-sizing: border-box; max-width: 1200px; margin: 0 auto; padding: 25px;">
+                <h3 class="levels-subtitle" style="margin-top: 0; color: #7c5a0b; font-family: 'Fredoka', sans-serif; text-align: center;">¿Qué es el Nivel Léxico-Semántico?</h3>
+                <p class="levels-text" style="color: #926f15; font-size: 1.15rem; line-height: 1.6; margin-bottom: 0;">
+                    Este nivel del lenguaje se relaciona directamente con el <strong>vocabulario</strong> y el <strong>significado de las palabras</strong>. Nos permite comprender que una misma palabra puede tener múltiples interpretaciones según el contexto en el que se use (polisemia) y organizar de forma mental los elementos del mundo por categorías o familias semánticas (categorización). Desarrollar habilidades léxico-semánticas es clave para que los niños logren expresar con precisión lo que piensan y comprendan la riqueza y matices del lenguaje en su entorno escolar y social.
+                </p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 1: Palabras Polisémicas (Fondo Claro) -->
+        <section class="activity-section" id="seccion-polisemia">
+            <h3 class="activity-section-title">1. Palabras Polisémicas (Polisemias)</h3>
+            <div class="activity-content-grid">
+                <!-- Columna Izquierda: Ficha Técnica -->
+                <div class="activity-card-container">
+                    <ul class="metadata-list">
+                        <li class="metadata-item"><span class="metadata-label">Instrucción:</span> Identificar el significado correcto de palabras con más de una definición de acuerdo al contexto de la oración.</li>
+                        <li class="metadata-item"><span class="metadata-label">Habilidad:</span> Polisemia (Léxico-Semántico).</li>
+                        <li class="metadata-item"><span class="metadata-label">Edad:</span> 5 a 7 años.</li>
+                        <li class="metadata-item"><span class="metadata-label">Nivel de dificultad:</span> Medio.</li>
+                        <li class="metadata-item"><span class="metadata-label">Objetivo:</span> Desarrollar la comprensión del doble significado de términos comunes adaptándose al contexto semántico de la oración.</li>
+                        <li class="metadata-item"><span class="metadata-label">Estrategia utilizada:</span> Asociación contextual e imágenes mentales.</li>
+                    </ul>
+                    <div class="metadata-how-to">
+                        <span class="metadata-how-to-title">¿Cómo aplicarla?</span>
+                        <p class="metadata-item">El profesional lee una oración que contiene una palabra polisémica (ej: "banco", "bota", "carta") y guía al estudiante mediante preguntas u opciones visuales para descubrir el sentido adecuado.</p>
+                    </div>
+                </div>
+
+                <!-- Columna Derecha: Actividades/Juegos -->
+                <div class="activity-games-column">
+                    <div class="game-card">
+                        <div class="game-info">
+                            <span class="game-title">Palabras Polisémicas (Wordwall)</span>
+                            <p class="game-description">Actividad lúdica interactiva en Wordwall para relacionar palabras con múltiples significados.</p>
+                        </div>
+                        <div class="mock-educaplay-logo">
+                            <div class="educaplay-banner" style="border-color:#1a73e8;" aria-hidden="true">
+                                <span class="educaplay-text-logo" style="color:#1a73e8;">wordwall</span>
+                                <span class="educaplay-tagline">Recursos Interactivos</span>
+                            </div>
+                            <a href="https://wordwall.net/resource/115304850" target="_blank" rel="noopener" class="wordwall-link-btn">Iniciar Actividad ↗</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- SECCIÓN 2: Categorización (Fondo Oscuro Ámbar) -->
-        <div class="dark-amber-section" id="seccion-categorizacion">
-            <section class="activity-section">
+        <div class="dark-amber-section">
+            <section class="activity-section" id="seccion-categorizacion">
                 <h3 class="activity-section-title">2. Categorización Semántica</h3>
                 <div class="activity-content-grid">
                     <!-- Columna Izquierda: Ficha Técnica -->
