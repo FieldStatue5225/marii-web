@@ -263,6 +263,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Si ya estamos en la página del enlace, no hacer nada
                 if (isCurrentPage(href)) {
                     e.preventDefault();
+                    if (window.innerWidth <= 600 && typeof rightLinks !== 'undefined') {
+                        rightLinks.classList.remove('menu-active');
+                    }
                     return;
                 }
                 
@@ -2364,6 +2367,38 @@ function initMorfosintacticoGames() {
 
         allTitles.forEach(title => {
             titleObserver.observe(title);
+        });
+    }
+
+    // --- CONTROL DE MENÚ MÓVIL EN EL TÍTULO NAVBAR ---
+    const titleLink = document.querySelector('.navbar-title-link');
+    const rightLinks = document.querySelector('.navbar-right-links');
+
+    if (titleLink && rightLinks) {
+        titleLink.addEventListener('click', function(e) {
+            // Solo actuar en pantallas móviles (ancho <= 600px)
+            if (window.innerWidth <= 600) {
+                const isActive = rightLinks.classList.contains('menu-active');
+                
+                if (!isActive) {
+                    // Si no están visibles, prevenimos la navegación y los mostramos
+                    e.preventDefault();
+                    e.stopPropagation();
+                    rightLinks.classList.add('menu-active');
+                } else {
+                    // Si ya están visibles, dejamos que navegue a index.html
+                    // (el comportamiento por defecto del enlace)
+                }
+            }
+        });
+
+        // Cerrar el menú automáticamente si se hace click fuera de la navbar
+        document.addEventListener('click', function(e) {
+            if (window.innerWidth <= 600) {
+                if (!e.target.closest('.navbar')) {
+                    rightLinks.classList.remove('menu-active');
+                }
+            }
         });
     }
 }
