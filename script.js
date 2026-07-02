@@ -168,14 +168,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const overlay = document.querySelector('.page-transition-overlay');
     if (overlay) {
-        // Asegurar que exista el elemento de texto de transición
         let transText = overlay.querySelector('.transition-text');
         if (!transText) {
             transText = document.createElement('div');
             transText.className = 'transition-text';
-            transText.innerText = 'Nivel de Lenguaje';
             overlay.appendChild(transText);
         }
+        transText.innerHTML = 'Niveles de<br>Lenguaje';
 
         // Definir color del texto y del puzle según la página actual
         let currentTextColor = '#1a1a1a';
@@ -255,14 +254,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.preventDefault();
                 
                 if (overlay) {
-                    // Asegurar que exista el texto de transición
                     let transText = overlay.querySelector('.transition-text');
                     if (!transText) {
                         transText = document.createElement('div');
                         transText.className = 'transition-text';
-                        transText.innerText = 'Nivel de Lenguaje';
                         overlay.appendChild(transText);
                     }
+                    transText.innerHTML = 'Niveles de<br>Lenguaje';
 
                     // Definir color de las piezas y de texto destino
                     let targetPuzzleColor = '#ebdcd0';
