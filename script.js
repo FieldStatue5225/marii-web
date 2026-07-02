@@ -1791,6 +1791,70 @@ function initMorfosintacticoGames() {
                 { text: "Hacer un círculo con el dedo índice al lado de la sien. 🤪", question: "¿Qué significa coloquialmente?", options: ["Que alguien está loco o bromeando", "Que tengo dolor de cabeza", "Que estoy pensando una idea"], correct: "Que alguien está loco o bromeando", speech: "Hacer un círculo al lado de la sien. ¿Qué significa?", success: "¡Excelente! Denota locura o broma en nuestro contexto social.", error: "No se asocia con dolor o pensamiento concentrado." }
             ]
         },
+        "seccion-acceso-lexico": {
+            type: "quiz",
+            title: "Demo: Acceso al Léxico",
+            examples: [
+                { text: "Pista: Redondo, rebota y sirve para jugar fútbol. ⚽", question: "¿Qué objeto es?", options: ["Pelota", "Mesa", "Lápiz"], correct: "Pelota", speech: "Redondo, rebota y sirve para jugar fútbol. ¿Qué objeto es?", success: "¡Excelente! Una pelota sirve para jugar fútbol.", error: "No es correcto. Piensa en algo redondo que rebote." },
+                { text: "Pista: Objeto de vidrio que sirve para beber agua. 🥛", question: "¿Qué objeto es?", options: ["Vaso", "Plato", "Cuchara"], correct: "Vaso", speech: "Objeto de vidrio que sirve para beber agua. ¿Qué objeto es?", success: "¡Muy bien! Bebemos agua en un vaso.", error: "No. ¿En qué servimos el agua para tomar?" }
+            ]
+        },
+        "seccion-fluidez-lexica": {
+            type: "quiz",
+            title: "Demo: Fluidez Léxica",
+            examples: [
+                { text: "Consigna: Busca una palabra que comience con la letra M. 🅰️", question: "¿Cuál empieza con M?", options: ["Mesa", "Casa", "Pelota"], correct: "Mesa", speech: "Busca una palabra que comience con la letra M.", success: "¡Excelente! Mesa comienza con la letra M.", error: "Inténtalo de nuevo. Esa palabra no empieza con M." },
+                { text: "Consigna: Busca una palabra que comience con la letra P. 🅰️", question: "¿Cuál empieza con P?", options: ["Perro", "Gato", "Árbol"], correct: "Perro", speech: "Busca una palabra que comience con la letra P.", success: "¡Muy bien! Perro comienza con la letra P.", error: "No. Busca la que tiene sonido inicial P." }
+            ]
+        },
+        "seccion-relacion-lexica": {
+            type: "quiz",
+            title: "Demo: Relación Léxica",
+            examples: [
+                { text: "Consigna: ¿Cuál de estas palabras se relaciona con la cocina? 🍳", question: "¿Qué elemento es de cocina?", options: ["Olla", "Cama", "Cuaderno"], correct: "Olla", speech: "De las opciones, ¿cuál se relaciona con la cocina?", success: "¡Correcto! La olla es un utensilio de cocina.", error: "Esa palabra no pertenece a la cocina." },
+                { text: "Consigna: ¿Cuál de estas palabras se relaciona con el colegio? 🎒", question: "¿Qué elemento es del colegio?", options: ["Estuche", "Cuchillo", "Sofá"], correct: "Estuche", speech: "De las opciones, ¿cuál se relaciona con el colegio?", success: "¡Excelente! El estuche sirve para llevar lápices al colegio.", error: "No. Buscamos algo que uses para tus tareas o clases." }
+            ]
+        },
+        "seccion-funciones-objetos": {
+            type: "quiz",
+            title: "Demo: Funciones de Objetos",
+            examples: [
+                { text: "Pregunta: ¿Para qué sirve un cepillo de dientes? 🪥", question: "¿Cuál es su función?", options: ["Para lavarse los dientes", "Para peinarse", "Para escribir"], correct: "Para lavarse los dientes", speech: "¿Para qué sirve un cepillo de dientes?", success: "¡Excelente! Lo usamos para la higiene bucal.", error: "No es correcto. Piensa en tus dientes." },
+                { text: "Pregunta: ¿Para qué sirve una llave? 🔑", question: "¿Cuál es su función?", options: ["Para abrir puertas", "Para cortar papel", "Para cocinar"], correct: "Para abrir puertas", speech: "¿Para qué sirve una llave?", success: "¡Muy bien! Las llaves sirven para abrir cerraduras.", error: "No, las llaves no sirven para eso." }
+            ]
+        },
+        "seccion-analogias": {
+            type: "quiz",
+            title: "Demo: Analogías",
+            examples: [
+                { text: "Analogía: El día es al sol como la noche es a... ☀️🌙", question: "Completa la relación:", options: ["la luna", "las nubes", "la lluvia"], correct: "la luna", speech: "El día es al sol como la noche es a...", success: "¡Excelente! La luna ilumina la noche.", error: "Piensa en el elemento brillante de la noche." },
+                { text: "Analogía: El pájaro vuela por el aire como el pez nada en... 🐦🐟", question: "Completa la relación:", options: ["el agua", "la tierra", "el cielo"], correct: "el agua", speech: "El pájaro vuela por el aire como el pez nada en...", success: "¡Correcto! Los peces nadan en el agua.", error: "No, los peces necesitan agua para nadar." }
+            ]
+        },
+        "seccion-opuestos-antonimos": {
+            type: "quiz",
+            title: "Demo: Opuestos y Antónimos",
+            examples: [
+                { text: "Pregunta: ¿Cuál es el opuesto de 'grande'? 🐘", question: "Selecciona el antónimo:", options: ["Pequeño", "Enorme", "Gigante"], correct: "Pequeño", speech: "¿Cuál es el opuesto de grande?", success: "¡Muy bien! Pequeño es el antónimo de grande.", error: "No, eso significa lo mismo o similar. Busca el contrario." },
+                { text: "Pregunta: ¿Cuál es el opuesto de 'frío'? ❄️", question: "Selecciona el antónimo:", options: ["Caliente", "Helado", "Templado"], correct: "Caliente", speech: "¿Cuál es el opuesto de frío?", success: "¡Excelente! Caliente es el opuesto directo de frío.", error: "No. Piensa en el fuego o el verano." }
+            ]
+        },
+        "seccion-sinonimos": {
+            type: "quiz",
+            title: "Demo: Sinónimos",
+            examples: [
+                { text: "Pregunta: ¿Cuál es el sinónimo de 'feliz'? 😊", question: "Selecciona la palabra con igual significado:", options: ["Alegre", "Triste", "Enojado"], correct: "Alegre", speech: "¿Cuál es el sinónimo de feliz?", success: "¡Excelente! Alegre significa lo mismo que feliz.", error: "Ese es el opuesto. Buscamos el sinónimo." },
+                { text: "Pregunta: ¿Cuál es el sinónimo de 'rápido'? ⚡", question: "Selecciona la palabra con igual significado:", options: ["Veloz", "Lento", "Pausado"], correct: "Veloz", speech: "¿Cuál es el sinónimo de rápido?", success: "¡Muy bien! Veloz es sinónimo de rápido.", error: "No, ese es el antónimo. Busca el significado parecido." }
+            ]
+        },
+        "seccion-definicion-elementos": {
+            type: "quiz",
+            title: "Demo: Definición de Elementos",
+            examples: [
+                { text: "Pregunta: ¿Cómo se define una 'fruta'? 🍎", question: "Selecciona la definición correcta:", options: ["Alimento dulce que sale de una planta", "Objeto de madera para sentarse", "Vehículo de cuatro ruedas"], correct: "Alimento dulce que sale de una planta", speech: "Cómo se define una fruta.", success: "¡Excelente! Las frutas son alimentos de origen vegetal.", error: "Esa no es la definición de una fruta." },
+                { text: "Pregunta: ¿Cómo se define una 'cama'? 🛏️", question: "Selecciona la definición correcta:", options: ["Mueble que sirve para dormir", "Prenda de vestir para abrigarse", "Utensilio para comer sopa"], correct: "Mueble que sirve para dormir", speech: "Cómo se define una cama.", success: "¡Muy bien! La cama es para descansar o dormir.", error: "No. ¿Para qué usamos la cama todos los días?" }
+            ]
+        },
         "seccion-polisemia": {
             type: "quiz",
             title: "Demo: Palabras Polisémicas",
@@ -1801,7 +1865,7 @@ function initMorfosintacticoGames() {
         },
         "seccion-categorizacion": {
             type: "quiz",
-            title: "Demo: Categorización",
+            title: "Demo: Categorización Semántica",
             examples: [
                 { text: "Elementos: 'manzana, plátano, uva' 🍎🍌🍇", question: "¿A qué grupo pertenecen?", options: ["Frutas", "Verduras", "Juguetes"], correct: "Frutas", speech: "Manzana, plátano y uva. ¿A qué grupo pertenecen?", success: "¡Correcto! Todos son deliciosos tipos de frutas.", error: "No son verduras o juguetes. Son frutas de comer." },
                 { text: "Elementos: 'perro, gato, león' 🐶🐱🦁", question: "¿A qué grupo pertenecen?", options: ["Animales", "Plantas", "Medios de transporte"], correct: "Animales", speech: "Perro, gato y león. ¿A qué grupo pertenecen?", success: "¡Excelente! Son animales domésticos y salvajes.", error: "No son plantas ni vehículos. Son seres vivos animales." }
