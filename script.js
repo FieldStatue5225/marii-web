@@ -27,6 +27,145 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // --- 2. EFECTO REVELAR PÁGINA (SHRINKING OVERLAY AL CARGAR) ---
+    // --- 2. EFECTO REVELAR PÁGINA (TRANSCIÓN EN ROMPECABEZAS AL CARGAR) ---
+    // Procedimiento para construir las piezas del puzle
+    function buildPuzzleOverlay(overlay) {
+        const transText = overlay.querySelector('.transition-text');
+        overlay.innerHTML = '';
+        if (transText) overlay.appendChild(transText);
+
+        const rows = 4;
+        const cols = 5;
+
+        // Generar bordes interlocking (1 = tab out, -1 = tab in, 0 = flat)
+        const rightEdges = [];
+        const bottomEdges = [];
+
+        for (let r = 0; r < rows; r++) {
+            rightEdges.push(new Array(cols - 1).fill(0));
+            bottomEdges.push(new Array(cols).fill(0));
+        }
+
+        // Definir valores aleatorios para bordes internos
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                if (c < cols - 1) rightEdges[r][c] = Math.random() < 0.5 ? 1 : -1;
+                if (r < rows - 1) bottomEdges[r][c] = Math.random() < 0.5 ? 1 : -1;
+            }
+        }
+
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                // Determinar tipo de borde por lado
+                const top = r === 0 ? 0 : -bottomEdges[r - 1][c];
+                const left = c === 0 ? 0 : -rightEdges[r][c - 1];
+                const bottom = r === rows - 1 ? 0 : bottomEdges[r][c];
+                const right = c === cols - 1 ? 0 : rightEdges[r][c];
+
+                // Generar Path SVG de la pieza del rompecabezas
+                let path = 'M 0,0 ';
+
+                // Borde Superior
+                if (top === 0) path += 'L 100,0 ';
+                else if (top === 1) path += 'L 35,0 C 35,-12 43,-16 50,-16 C 57,-16 65,-12 65,0 L 100,0 ';
+                else path += 'L 35,0 C 35,12 43,16 50,16 C 57,16 65,12 65,0 L 100,0 ';
+
+                // Borde Derecho
+                if (right === 0) path += 'L 100,100 ';
+                else if (right === 1) path += 'L 100,35 C 112,35 116,43 116,50 C 116,57 112,65 100,65 L 100,100 ';
+                else path += 'L 100,35 C 88,35 84,43 84,50 C 84,57 88,65 100,65 L 100,100 ';
+
+                // Borde Inferior
+                if (bottom === 0) path += 'L 0,100 ';
+                else if (bottom === 1) path += 'L 65,100 C 65,112 57,116 50,116 C 43,116 35,112 35,100 L 0,100 ';
+                else path += 'L 65,100 C 65,88 57,84 50,84 C 43,84 35,88 35,100 L 0,100 ';
+
+                // Borde Izquierdo
+                if (left === 0) path += 'L 0,0 ';
+                else if (left === 1) path += 'L 0,65 C -12,65 -16,57 -16,50 C -16,43 -12,35 0,35 L 0,0 ';
+                else path += 'L 0,65 C 12,65 16,57 16,50 C 16,43 12,35 0,35 L 0,0 ';
+
+                path += 'Z';
+
+                // Crear celda
+                const cell = document.createElement('div');
+                cell.className = 'puzzle-piece';
+                cell.setAttribute('data-row', r);
+                cell.setAttribute('data-col', c);
+
+                // Variables para dirección y offsets de desensamblaje
+                const randAngle = Math.floor(Math.random() * 40 - 20); // -20deg a 20deg
+                const randX = Math.floor(Math.random() * 80 - 40); // -40px a 40px
+                const randY = Math.floor(Math.random() * 80 - 40); // -40px a 40px
+
+                cell.style.setProperty('--rand-angle', `${randAngle}deg`);
+                cell.style.setProperty('--rand-x', `${randX}px`);
+                cell.style.setProperty('--rand-y', `${randY}px`);
+
+                cell.innerHTML = `
+                    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <path d="${path}"></path>
+                    </svg>
+                `;
+
+                overlay.appendChild(cell);
+            }
+        }
+    }
+
+    // Procedimiento para desensamblar el puzle y revelar la página
+    function disassemblePuzzle(overlay, callback) {
+        const pieces = overlay.querySelectorAll('.puzzle-piece');
+        overlay.classList.add('shrinking');
+        overlay.classList.remove('expanding');
+
+        pieces.forEach(piece => {
+            const r = parseInt(piece.getAttribute('data-row'));
+            const c = parseInt(piece.getAttribute('data-col'));
+            
+            // Retraso escalonado (stagger) en reversa (de abajo-derecha a arriba-izquierda)
+            const delay = ((3 - r) + (4 - c)) * 40;
+
+            const rx = piece.style.getPropertyValue('--rand-x');
+            const ry = piece.style.getPropertyValue('--rand-y');
+            const ra = piece.style.getPropertyValue('--rand-angle');
+
+            piece.style.transitionDelay = `${delay}ms`;
+            piece.style.transform = `scale(0) rotate(${ra}) translate(${rx}, ${ry})`;
+            piece.style.opacity = '0';
+        });
+
+        // Ocultar el overlay tras finalizar la animación de la última pieza
+        setTimeout(() => {
+            overlay.classList.remove('shrinking');
+            if (callback) callback();
+        }, 850);
+    }
+
+    // Procedimiento para ensamblar el puzle (cubrir la pantalla)
+    function assemblePuzzle(overlay, callback) {
+        const pieces = overlay.querySelectorAll('.puzzle-piece');
+        overlay.classList.add('expanding');
+        overlay.classList.remove('shrinking');
+
+        pieces.forEach(piece => {
+            const r = parseInt(piece.getAttribute('data-row'));
+            const c = parseInt(piece.getAttribute('data-col'));
+            
+            // Retraso escalonado (stagger) de arriba-izquierda a abajo-derecha
+            const delay = (r + c) * 40;
+
+            piece.style.transitionDelay = `${delay}ms`;
+            piece.style.transform = 'scale(1) rotate(0deg) translate(0, 0)';
+            piece.style.opacity = '1';
+        });
+
+        // Llamar al callback cuando termine de ensamblarse la última pieza
+        setTimeout(() => {
+            if (callback) callback();
+        }, 850);
+    }
+
     const overlay = document.querySelector('.page-transition-overlay');
     if (overlay) {
         // Asegurar que exista el elemento de texto de transición
@@ -38,46 +177,45 @@ document.addEventListener('DOMContentLoaded', function() {
             overlay.appendChild(transText);
         }
 
-        // Definir color del texto según la página actual
+        // Definir color del texto y del puzle según la página actual
         let currentTextColor = '#1a1a1a';
+        let currentPuzzleColor = '#1a1a1a';
         if (document.body.classList.contains('purple-theme')) {
             currentTextColor = '#2d0b4e';
+            currentPuzzleColor = '#2d0b4e';
         } else if (document.body.classList.contains('terracotta-theme')) {
             currentTextColor = '#4e1f13';
+            currentPuzzleColor = '#4e1f13';
         } else if (document.body.classList.contains('green-theme')) {
             currentTextColor = '#1b4d3e';
+            currentPuzzleColor = '#1b4d3e';
         } else if (document.body.classList.contains('amber-theme')) {
             currentTextColor = '#7c5a0b';
+            currentPuzzleColor = '#7c5a0b';
         }
         transText.style.color = currentTextColor;
+        overlay.style.setProperty('--puzzle-color', currentPuzzleColor);
 
-        // Recuperar coordenadas de click de la sesión (o centrar)
-        const rx = sessionStorage.getItem('ripple-x');
-        const ry = sessionStorage.getItem('ripple-y');
-        
-        if (rx && ry) {
-            overlay.style.setProperty('--ripple-x', rx + 'px');
-            overlay.style.setProperty('--ripple-y', ry + 'px');
-        } else {
-            overlay.style.setProperty('--ripple-x', '50%');
-            overlay.style.setProperty('--ripple-y', '50%');
-        }
-        
-        // Ajustar color del overlay al fondo de la página actual
-        const currentBg = getComputedStyle(document.body).backgroundColor;
-        overlay.style.backgroundColor = currentBg;
-        
+        // Construir el puzle
+        buildPuzzleOverlay(overlay);
+
+        // Forzar a todas las piezas a estar ensambladas inicialmente
+        const pieces = overlay.querySelectorAll('.puzzle-piece');
+        pieces.forEach(piece => {
+            piece.style.transform = 'scale(1) rotate(0deg) translate(0, 0)';
+            piece.style.opacity = '1';
+        });
+
+        // Iniciar desensamblado con delay inicial corto
         setTimeout(() => {
-            overlay.classList.remove('expanding');
-            overlay.classList.add('shrinking');
-            
-            overlay.addEventListener('transitionend', function() {
-                overlay.classList.remove('shrinking');
-                // Limpiar coordenadas de la sesión
-                sessionStorage.removeItem('ripple-x');
-                sessionStorage.removeItem('ripple-y');
-            }, { once: true });
-        }, 50);
+            disassemblePuzzle(overlay, () => {
+                // Disparar los brillitos al finalizar la transición de entrada
+                if (typeof triggerTitleSparkles === 'function') {
+                    const mainTitle = document.querySelector('.striped-header h2, .welcome-title');
+                    if (mainTitle) triggerTitleSparkles(mainTitle);
+                }
+            });
+        }, 100);
     }
 
     // Helper para verificar si un enlace apunta a la página actual
@@ -101,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
         return false;
     }
 
-    // --- 3. ANIMACIÓN CIRCULAR AL HACER CLICK EN ENLACES DE LA NAVBAR ---
+    // --- 3. ANIMACIÓN DE PUZLE AL HACER CLICK EN ENLACES DE LA NAVBAR ---
     const transitionLinks = document.querySelectorAll('.navbar-link, .navbar-title-link');
     transitionLinks.forEach(link => {
         link.addEventListener('click', function(e) {
@@ -116,17 +254,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 e.preventDefault();
                 
-                // Forzar que la animación empiece del centro de la pantalla
-                const centerX = window.innerWidth / 2;
-                const centerY = window.innerHeight / 2;
-                
-                sessionStorage.setItem('ripple-x', centerX);
-                sessionStorage.setItem('ripple-y', centerY);
-                
                 if (overlay) {
-                    overlay.style.setProperty('--ripple-x', centerX + 'px');
-                    overlay.style.setProperty('--ripple-y', centerY + 'px');
-                    
                     // Asegurar que exista el texto de transición
                     let transText = overlay.querySelector('.transition-text');
                     if (!transText) {
@@ -136,31 +264,46 @@ document.addEventListener('DOMContentLoaded', function() {
                         overlay.appendChild(transText);
                     }
 
-                    // Definir color de fondo y de texto destino
-                    let targetColor = '#f5f1eb';
+                    // Definir color de las piezas y de texto destino
+                    let targetPuzzleColor = '#1a1a1a';
                     let targetTextColor = '#1a1a1a';
                     if (href.includes('fonologico')) {
-                        targetColor = '#e0bbf6';
+                        targetPuzzleColor = '#2d0b4e';
                         targetTextColor = '#2d0b4e';
                     } else if (href.includes('morfosintactico')) {
-                        targetColor = '#f3cab8';
+                        targetPuzzleColor = '#4e1f13';
                         targetTextColor = '#4e1f13';
                     } else if (href.includes('semantico')) {
-                        targetColor = '#fdf8e6';
+                        targetPuzzleColor = '#7c5a0b';
                         targetTextColor = '#7c5a0b';
                     } else if (href.includes('pragmatico')) {
-                        targetColor = '#e3ece4';
+                        targetPuzzleColor = '#1b4d3e';
                         targetTextColor = '#1b4d3e';
                     }
                     
-                    overlay.style.backgroundColor = targetColor;
+                    overlay.style.setProperty('--puzzle-color', targetPuzzleColor);
                     transText.style.color = targetTextColor;
-                    
-                    overlay.classList.add('expanding');
-                    
-                    setTimeout(() => {
+
+                    // Re-construir las piezas con el color destino
+                    buildPuzzleOverlay(overlay);
+
+                    // Inicialmente desensambladas
+                    const pieces = overlay.querySelectorAll('.puzzle-piece');
+                    pieces.forEach(piece => {
+                        const rx = piece.style.getPropertyValue('--rand-x');
+                        const ry = piece.style.getPropertyValue('--rand-y');
+                        const ra = piece.style.getPropertyValue('--rand-angle');
+                        piece.style.transform = `scale(0) rotate(${ra}) translate(${rx}, ${ry})`;
+                        piece.style.opacity = '0';
+                    });
+
+                    // Forzar reflow/registro de estilos
+                    overlay.offsetHeight;
+
+                    // Ensamblar el puzle y redirigir
+                    assemblePuzzle(overlay, () => {
                         window.location.href = href;
-                    }, 850); // Tiempo extendido para percibir la animación de texto
+                    });
                 } else {
                     window.location.href = href;
                 }
@@ -1707,8 +1850,16 @@ function initMorfosintacticoGames() {
             type: "quiz",
             title: "Demo: Reconocer Emociones",
             examples: [
-                { text: "Juan sonríe ampliamente y aplaude. 😊", question: "¿Cómo se siente Juan?", options: ["Enojado", "Alegre", "Triste"], correct: "Alegre", speech: "Juan sonríe ampliamente y aplaude. ¿Cómo se siente Juan?", success: "¡Excelente! La sonrisa y aplausos indican alegría.", error: "No, las sonrisas no demuestran esa emoción." },
+                { text: "Juan sonríe ampliamente and aplaude. 😊", question: "¿Cómo se siente Juan?", options: ["Enojado", "Alegre", "Triste"], correct: "Alegre", speech: "Juan sonríe ampliamente y aplaude. ¿Cómo se siente Juan?", success: "¡Excelente! La sonrisa y aplausos indican alegría.", error: "No, las sonrisas no demuestran esa emoción." },
                 { text: "Sofía cruza los brazos y frunce el ceño. 😠", question: "¿Cómo se siente Sofía?", options: ["Asustada", "Enojada", "Alegre"], correct: "Enojada", speech: "Sofía cruza los brazos y frunce el ceño. ¿Cómo se siente Sofía?", success: "¡Correcto! Esa postura corporal denota enfado.", error: "Esa expresión facial no indica miedo o alegría." }
+            ]
+        },
+        "seccion-expresion-emociones": {
+            type: "quiz",
+            title: "Demo: Reconocer Emociones II",
+            examples: [
+                { text: "Sofía sonríe al ver a su abuela y corre a abrazarla. 🤗", question: "¿Cómo se siente Sofía?", options: ["Feliz y cariñosa", "Enojada", "Asustada"], correct: "Feliz y cariñosa", speech: "Sofía sonríe al ver a su abuela y corre a abrazarla. ¿Cómo se siente Sofía?", success: "¡Excelente! La sonrisa y el abrazo demuestran afecto y felicidad.", error: "No. El comportamiento afectuoso no demuestra enojo o susto." },
+                { text: "Luis suspira con los hombros caídos al perder su juguete favorito. 😞", question: "¿Cómo se siente Luis?", options: ["Triste", "Enojado", "Sorprendido"], correct: "Triste", speech: "Luis suspira con los hombros caídos al perder su juguete. ¿Cómo se siente Luis?", success: "¡Muy bien! Los hombros caídos y el suspiro expresan pena.", error: "No. El desánimo y suspiros indican tristeza y desilusión." }
             ]
         },
         "seccion-proxemica": {
@@ -1717,6 +1868,14 @@ function initMorfosintacticoGames() {
             examples: [
                 { text: "Tu amigo te está hablando y se acerca tanto que casi toca tu nariz. 👃", question: "¿Qué espacio está invadiendo?", options: ["Tu espacio personal", "Tu espacio público", "Tu espacio escolar"], correct: "Tu espacio personal", speech: "Tu amigo te habla de tan cerca que casi toca tu nariz. ¿Qué espacio está invadiendo?", success: "¡Muy bien! Debemos respetar el espacio personal íntimo de cada uno.", error: "No. El espacio inmediato alrededor de nuestro cuerpo es el espacio personal." },
                 { text: "Al conversar con alguien en el patio del colegio. 👥", question: "Al conversar con alguien en el patio, ¿a qué distancia es adecuado pararse?", options: ["A un paso de distancia (distancia cómoda)", "Pegado a él tocando su hombro", "A cinco metros de distancia (muy lejos)"], correct: "A un paso de distancia (distancia cómoda)", speech: "Al conversar con alguien en el patio, ¿a qué distancia es adecuado pararse?", success: "¡Excelente! Mantener un paso de distancia es cómodo y respetuoso.", error: "No. Estar demasiado pegado o extremadamente lejos dificulta la conversación." }
+            ]
+        },
+        "seccion-contacto-ocular": {
+            type: "quiz",
+            title: "Demo: Contacto Ocular",
+            examples: [
+                { text: "Cuando le estás contando algo divertido a tu amigo, él te mira fijamente a los ojos. 👀", question: "¿Qué demuestra esto?", options: ["Que te está escuchando con atención", "Que está aburrido", "Que quiere irse"], correct: "Que te está escuchando con atención", speech: "Cuando le cuentas algo divertido a tu amigo, él te mira a los ojos. ¿Qué demuestra esto?", success: "¡Excelente! Mirar a los ojos al hablar demuestra interés y respeto.", error: "No. Evitar la mirada suele indicar desinterés, mirarte indica atención." },
+                { text: "Estás conversando con alguien y esa persona mira constantemente su reloj y el suelo. ⌚", question: "¿Qué crees que pasa?", options: ["Está aburrida o apurada", "Está muy feliz escuchándote", "Tiene mucho sueño"], correct: "Está aburrida o apurada", speech: "Estás conversando y esa persona mira su reloj y el suelo constantemente. ¿Qué crees que pasa?", success: "¡Correcto! Apartar la mirada constantemente indica distracción, prisa o aburrimiento.", error: "No. Mirar el reloj no indica alegría o interés en la conversación." }
             ]
         },
         "seccion-manejo-turnos": {
@@ -1926,6 +2085,22 @@ function initMorfosintacticoGames() {
                 { text: "Ves un cohete espacial de juguete y te imaginas viajando a la Luna. 🚀🌕", question: "¿Qué historia fantástica inventas primero?", options: ["¡Viajaremos al espacio exterior y conoceremos alienígenas!", "El juguete es de plástico duro", "La Luna brilla de noche"], correct: "¡Viajaremos al espacio exterior y conoceremos alienígenas!", speech: "Ves un cohete espacial de juguete y te imaginas viajando a la Luna. ¿Qué historia fantástica inventas primero?", success: "¡Increíble imaginación! Usas el lenguaje para crear mundos y fantasías hermosas.", error: "No. Eso es una descripción fría, no estás creando una historia de fantasía." },
                 { text: "Quieres jugar al 'barco pirata' usando una simple caja de cartón. 📦🏴‍☠️", question: "¿Qué dices para iniciar el juego?", options: ["¡Todos a bordo, busquemos el tesoro perdido!", "Esta caja es de color café", "Las cajas sirven para guardar cosas"], correct: "¡Todos a bordo, busquemos el tesoro perdido!", speech: "Quieres jugar al barco pirata usando una simple caja de cartón. ¿Qué dices para iniciar el juego?", success: "¡Perfecto! Así es como el lenguaje imaginativo le da vida a la fantasía.", error: "No. Decir que la caja es de color café es descriptivo, no estimula la imaginación." }
             ]
+        },
+        "seccion-prosodia": {
+            type: "quiz",
+            title: "Demo: Entonación (Prosodia)",
+            examples: [
+                { text: "Alguien te dice con voz fuerte, rápida y el ceño fruncido: '¡No quiero hacer eso!' 🗣️", question: "¿Cómo se siente según su voz?", options: ["Enojado", "Feliz", "Asustado"], correct: "Enojado", speech: "Alguien dice con voz fuerte y rápida ¡no quiero hacer eso! ¿Cómo se siente según su voz?", success: "¡Excelente! El tono fuerte y cortante transmite enfado.", error: "No. El volumen y velocidad no indican felicidad o calma." },
+                { text: "Tu mamá te dice suspirando de forma suave y lenta: 'Qué lindo dibujo hiciste...' 🎨💖", question: "¿Qué transmite su tono de voz?", options: ["Cariño y orgullo", "Enojo y rabia", "Susto y pánico"], correct: "Cariño y orgullo", speech: "Tu mamá dice suspirando de forma suave: Qué lindo dibujo hiciste. ¿Qué transmite su tono de voz?", success: "¡Muy bien! Una voz suave y pausada transmite afecto y tranquilidad.", error: "No. El tono suave no refleja enojo, rabia o pánico." }
+            ]
+        },
+        "seccion-teoria-mente": {
+            type: "quiz",
+            title: "Demo: Teoría de la Mente",
+            examples: [
+                { text: "María guarda su chocolate en el cajón y sale al patio. Juan entra y cambia el chocolate a la mochila. 🍫🎒", question: "Cuando María regrese, ¿dónde buscará primero su chocolate?", options: ["En el cajón", "En la mochila", "En la mesa"], correct: "En el cajón", speech: "María guarda su chocolate en el cajón y sale. Juan lo cambia a la mochila. Cuando María regrese, ¿dónde buscará primero su chocolate?", success: "¡Excelente! María buscará en el cajón porque ella no vio que Juan lo cambió.", error: "No. Recuerda que María no estuvo presente cuando Juan cambió el chocolate." },
+                { text: "Tu amigo está llorando en silencio mirando su dibujo roto. 😢🎨", question: "¿Qué está pensando y sintiendo tu amigo?", options: ["Está triste porque su dibujo se dañó", "Está feliz porque quiere hacer otro", "Está aburrido de pintar"], correct: "Está triste porque su dibujo se dañó", speech: "Tu amigo está llorando en silencio mirando su dibujo roto. ¿Qué está pensando y sintiendo?", success: "¡Muy bien! Llorar por un objeto roto demuestra frustración y tristeza por esa pérdida.", error: "No, las lágrimas de silencio sobre su trabajo roto indican pena, no felicidad." }
+            ]
         }
     };
 
@@ -2094,6 +2269,88 @@ function initMorfosintacticoGames() {
         });
     }
 
+    // --- EFECTO DE BRILLITOS (SPARKLES) EN TÍTULOS ---
+    function triggerTitleSparkles(titleElement) {
+        const el = titleElement || document.querySelector('.striped-header h2, .welcome-title');
+        if (!el) return;
+
+        // Asegurarse de que el título tenga position relative y la clase sparkle-container
+        el.classList.add('sparkle-container');
+
+        // Eliminar spawners antiguos si los hay para reiniciar la animación
+        el.querySelectorAll('.sparkle-spawner').forEach(spawner => spawner.remove());
+
+        // Crear spawner izquierdo y derecho
+        const leftSpawner = document.createElement('div');
+        leftSpawner.className = 'sparkle-spawner left-spawner';
+        leftSpawner.style.left = '-15px';
+        leftSpawner.style.top = '10px';
+
+        const rightSpawner = document.createElement('div');
+        rightSpawner.className = 'sparkle-spawner right-spawner';
+        rightSpawner.style.right = '-15px';
+        rightSpawner.style.top = '10px';
+
+        // Añadir 3 brillitos al spawner izquierdo
+        for (let i = 1; i <= 3; i++) {
+            const pill = document.createElement('div');
+            pill.className = 'sparkle-pill';
+            pill.style.animation = `pop-sparkle-left-${i} 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+            pill.style.animationDelay = `${(i - 1) * 0.05}s`;
+            leftSpawner.appendChild(pill);
+        }
+
+        // Añadir 3 brillitos al spawner derecho
+        for (let i = 1; i <= 3; i++) {
+            const pill = document.createElement('div');
+            pill.className = 'sparkle-pill';
+            pill.style.animation = `pop-sparkle-right-${i} 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+            pill.style.animationDelay = `${(i - 1) * 0.05}s`;
+            rightSpawner.appendChild(pill);
+        }
+
+        el.appendChild(leftSpawner);
+        el.appendChild(rightSpawner);
+    }
+
+    // Exponer la función para que el overlay de transición la llame
+    window.triggerTitleSparkles = triggerTitleSparkles;
+
     // Inicializar juegos demo al final de la carga
     initDemoGames();
+
+    // Disparar en el título principal diferido al cargar
+    setTimeout(() => {
+        const mainTitle = document.querySelector('.striped-header h2, .welcome-title');
+        if (mainTitle) triggerTitleSparkles(mainTitle);
+    }, 600);
+
+    // Seleccionar TODOS los títulos del sitio para aplicarles el efecto
+    const allTitles = document.querySelectorAll(
+        '.striped-header h2, .welcome-title, .activity-section-title, .guide-title, .intro-title, .levels-subtitle, .levels-title, .activity-card-container h3, .activity-card-container h4, .striped-header-container h2'
+    );
+
+    // 1. Agregar listener para disparar los brillitos al pasar el mouse por encima
+    allTitles.forEach(title => {
+        title.addEventListener('mouseenter', () => {
+            triggerTitleSparkles(title);
+        });
+    });
+
+    // 2. Agregar IntersectionObserver para disparar el efecto al aparecer en pantalla al hacer scroll
+    if ('IntersectionObserver' in window) {
+        const titleObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    triggerTitleSparkles(entry.target);
+                    // Dejar de observar para que brille solo la primera vez que se hace scroll hasta él
+                    titleObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        allTitles.forEach(title => {
+            titleObserver.observe(title);
+        });
+    }
 }
