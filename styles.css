@@ -583,6 +583,11 @@ body.green-theme .navbar {
     line-height: 1.6;
 }
 
+/* Links de navegación específicos para móvil/escritorio */
+.navbar-link.link-mobile {
+    display: none !important;
+}
+
 /* ===== OVERLAY DE TRANSICIÓN EN ROMPECABEZAS (PUZZLE) ===== */
 .page-transition-overlay {
     position: fixed;
@@ -3253,8 +3258,66 @@ body.terracotta-theme .game-speak-btn:active {
         margin-bottom: 0;
     }
 
-    .navbar-link {
-        font-size: 0.95rem;
+    .navbar-link.link-desktop {
+        display: none !important;
+    }
+
+    .navbar-right-links.menu-active {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 15px !important;
+        margin-top: 15px !important;
+        width: 100% !important;
+    }
+
+    .navbar-link.link-mobile {
+        display: flex !important;
+        width: 290px;
+        max-width: 90%;
+        height: 62px;
+        justify-content: center;
+        align-items: center;
+        background-color: #ffe7c4 !important;
+        border: 4px solid #fbb03b !important;
+        border-radius: 50px !important;
+        color: #000000 !important;
+        font-family: 'Fredoka', sans-serif !important;
+        font-size: 1.55rem !important;
+        font-weight: 700 !important;
+        text-decoration: underline !important;
+        text-underline-offset: 4px;
+        box-shadow: 0 4px 0px rgba(0,0,0,0.15) !important;
+        transition: transform 0.1s ease, box-shadow 0.1s ease, background-color 0.2s ease !important;
+        box-sizing: border-box !important;
+        opacity: 0; /* Por defecto ocultos para animar su aparición */
+    }
+
+    .navbar-link.link-mobile:active {
+        transform: translateY(2px) !important;
+        box-shadow: 0 2px 0px rgba(0,0,0,0.15) !important;
+    }
+
+    /* Animación de despliegue escalonado para cada botón móvil */
+    .navbar-right-links.menu-active .link-mobile {
+        animation: slideInCapsule 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    }
+
+    .navbar-right-links.menu-active .link-mobile:nth-child(5) { animation-delay: 0.05s; }
+    .navbar-right-links.menu-active .link-mobile:nth-child(6) { animation-delay: 0.1s; }
+    .navbar-right-links.menu-active .link-mobile:nth-child(7) { animation-delay: 0.15s; }
+    .navbar-right-links.menu-active .link-mobile:nth-child(8) { animation-delay: 0.2s; }
+    .navbar-right-links.menu-active .link-mobile:nth-child(9) { animation-delay: 0.25s; }
+
+    @keyframes slideInCapsule {
+        0% {
+            opacity: 0;
+            transform: translateY(-15px) scale(0.9);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
     }
 
     .navbar-line {
