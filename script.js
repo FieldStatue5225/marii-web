@@ -1918,6 +1918,14 @@ function initMorfosintacticoGames() {
                 { text: "Tu amigo te está hablando de dinosaurios y tú de repente le dices: '¡Ayer comí pizza!' 🦖🍕", question: "¿Qué hiciste con el tema?", options: ["Cambiaste el tema sin avisar", "Mantuviste el tema de dinosaurios", "Escuchaste con atención"], correct: "Cambiaste el tema sin avisar", speech: "Tu amigo te habla de dinosaurios y tú dices ayer comí pizza. ¿Qué hiciste con el tema?", success: "¡Muy bien! Cambiar de tema repentinamente puede confundir al oyente.", error: "No. El tema era dinosaurios, al hablar de pizza cambiaste bruscamente el tema." },
                 { text: "Alguien te dice: 'Me gustan mucho los perros'. 🐶", question: "¿Qué le respondes para mantener el tema?", options: ["¿Cuál es tu raza de perro favorita?", "A mí me gusta andar en bicicleta", "Mañana va a llover mucho"], correct: "¿Cuál es tu raza de perro favorita?", speech: "Alguien dice que le gustan los perros. ¿Qué le respondes para mantener el tema?", success: "¡Excelente! Hacer una pregunta relacionada ayuda a mantener la conversación fluida.", error: "No. Esa respuesta no se relaciona con los perros y corta la conversación." }
             ]
+        },
+        "seccion-funcion-imaginativa": {
+            type: "quiz",
+            title: "Demo: Función Imaginativa",
+            examples: [
+                { text: "Ves un cohete espacial de juguete y te imaginas viajando a la Luna. 🚀🌕", question: "¿Qué historia fantástica inventas primero?", options: ["¡Viajaremos al espacio exterior y conoceremos alienígenas!", "El juguete es de plástico duro", "La Luna brilla de noche"], correct: "¡Viajaremos al espacio exterior y conoceremos alienígenas!", speech: "Ves un cohete espacial de juguete y te imaginas viajando a la Luna. ¿Qué historia fantástica inventas primero?", success: "¡Increíble imaginación! Usas el lenguaje para crear mundos y fantasías hermosas.", error: "No. Eso es una descripción fría, no estás creando una historia de fantasía." },
+                { text: "Quieres jugar al 'barco pirata' usando una simple caja de cartón. 📦🏴‍☠️", question: "¿Qué dices para iniciar el juego?", options: ["¡Todos a bordo, busquemos el tesoro perdido!", "Esta caja es de color café", "Las cajas sirven para guardar cosas"], correct: "¡Todos a bordo, busquemos el tesoro perdido!", speech: "Quieres jugar al barco pirata usando una simple caja de cartón. ¿Qué dices para iniciar el juego?", success: "¡Perfecto! Así es como el lenguaje imaginativo le da vida a la fantasía.", error: "No. Decir que la caja es de color café es descriptivo, no estimula la imaginación." }
+            ]
         }
     };
 
