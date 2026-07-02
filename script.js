@@ -46,6 +46,8 @@ document.addEventListener('DOMContentLoaded', function() {
             currentTextColor = '#4e1f13';
         } else if (document.body.classList.contains('green-theme')) {
             currentTextColor = '#1b4d3e';
+        } else if (document.body.classList.contains('amber-theme')) {
+            currentTextColor = '#7c5a0b';
         }
         transText.style.color = currentTextColor;
 
@@ -143,6 +145,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else if (href.includes('morfosintactico')) {
                         targetColor = '#f3cab8';
                         targetTextColor = '#4e1f13';
+                    } else if (href.includes('semantico')) {
+                        targetColor = '#fdf8e6';
+                        targetTextColor = '#7c5a0b';
                     } else if (href.includes('pragmatico')) {
                         targetColor = '#e3ece4';
                         targetTextColor = '#1b4d3e';
@@ -1784,6 +1789,22 @@ function initMorfosintacticoGames() {
             examples: [
                 { text: "Encogerse de hombros y levantar las manos. 🤷", question: "¿Qué significa?", options: ["No lo sé / No entiendo", "Estoy feliz", "Tengo frío"], correct: "No lo sé / No entiendo", speech: "Encogerse de hombros. ¿Qué significa?", success: "¡Muy bien! Indica desconocimiento o confusión.", error: "Ese gesto no expresa alegría o frío." },
                 { text: "Hacer un círculo con el dedo índice al lado de la sien. 🤪", question: "¿Qué significa coloquialmente?", options: ["Que alguien está loco o bromeando", "Que tengo dolor de cabeza", "Que estoy pensando una idea"], correct: "Que alguien está loco o bromeando", speech: "Hacer un círculo al lado de la sien. ¿Qué significa?", success: "¡Excelente! Denota locura o broma en nuestro contexto social.", error: "No se asocia con dolor o pensamiento concentrado." }
+            ]
+        },
+        "seccion-polisemia": {
+            type: "quiz",
+            title: "Demo: Palabras Polisémicas",
+            examples: [
+                { text: "Oración: 'Fui a sentarme en el banco de la plaza.' 🤷", question: "¿Qué significa 'banco' aquí?", options: ["Asiento para sentarse", "Entidad de dinero"], correct: "Asiento para sentarse", speech: "Fui a sentarme en el banco de la plaza. ¿Qué significa banco?", success: "¡Muy bien! Se refiere al mueble público para sentarse.", error: "No es la entidad de dinero. En la plaza nos sentamos." },
+                { text: "Oración: 'El árbol tiene una gran copa verde.' 🌳", question: "¿Qué significa 'copa' aquí?", options: ["Parte superior del árbol", "Vaso con pie para beber"], correct: "Parte superior del árbol", speech: "El árbol tiene una gran copa verde. ¿Qué significa copa?", success: "¡Excelente! La copa del árbol es su follaje superior.", error: "No es un vaso. Los árboles no beben de copas de vidrio." }
+            ]
+        },
+        "seccion-categorizacion": {
+            type: "quiz",
+            title: "Demo: Categorización",
+            examples: [
+                { text: "Elementos: 'manzana, plátano, uva' 🍎🍌🍇", question: "¿A qué grupo pertenecen?", options: ["Frutas", "Verduras", "Juguetes"], correct: "Frutas", speech: "Manzana, plátano y uva. ¿A qué grupo pertenecen?", success: "¡Correcto! Todos son deliciosos tipos de frutas.", error: "No son verduras o juguetes. Son frutas de comer." },
+                { text: "Elementos: 'perro, gato, león' 🐶🐱🦁", question: "¿A qué grupo pertenecen?", options: ["Animales", "Plantas", "Medios de transporte"], correct: "Animales", speech: "Perro, gato y león. ¿A qué grupo pertenecen?", success: "¡Excelente! Son animales domésticos y salvajes.", error: "No son plantas ni vehículos. Son seres vivos animales." }
             ]
         }
     };
