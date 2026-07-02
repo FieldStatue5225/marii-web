@@ -302,7 +302,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     } else if (href.includes('morfosintactico')) {
                         targetPuzzleColor = '#f2cebf';
                         targetTextColor = '#4e1f13';
-                    } else if (href.includes('semantico')) {
+                    } else if (href.includes('lexico') || href.includes('semantico')) {
                         targetPuzzleColor = '#f5e5b3';
                         targetTextColor = '#7c5a0b';
                     } else if (href.includes('pragmatico')) {
