@@ -26,16 +26,21 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(levelsSection);
     }
 
-    // --- 2. EFECTO REVELAR PÁGINA (SHRINKING OVERLAY AL CARGAR) ---
     // --- 2. EFECTO REVELAR PÁGINA (TRANSCIÓN EN ROMPECABEZAS AL CARGAR) ---
-    // Procedimiento para construir las piezas del puzle
+    // Procedimiento para construir las piezas del puzle de forma adaptable a la pantalla
     function buildPuzzleOverlay(overlay) {
         const transText = overlay.querySelector('.transition-text');
         overlay.innerHTML = '';
         if (transText) overlay.appendChild(transText);
 
-        const rows = 4;
-        const cols = 5;
+        // Detectar si la pantalla es más alta que ancha (retrato/móvil)
+        const isPortrait = window.innerHeight > window.innerWidth;
+        const cols = isPortrait ? 3 : 5;
+        const rows = isPortrait ? 6 : 4;
+
+        // Asignar columnas y filas a la grilla dinámicamente
+        overlay.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+        overlay.style.gridTemplateRows = `repeat(${rows}, 1fr)`;
 
         // Generar bordes interlocking (1 = tab out, -1 = tab in, 0 = flat)
         const rightEdges = [];
@@ -94,9 +99,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 cell.setAttribute('data-col', c);
 
                 // Variables para dirección y offsets de desensamblaje
-                const randAngle = Math.floor(Math.random() * 40 - 20); // -20deg a 20deg
-                const randX = Math.floor(Math.random() * 80 - 40); // -40px a 40px
-                const randY = Math.floor(Math.random() * 80 - 40); // -40px a 40px
+                const randAngle = Math.floor(Math.random() * 40 - 20);
+                const randX = Math.floor(Math.random() * 80 - 40);
+                const randY = Math.floor(Math.random() * 80 - 40);
 
                 cell.style.setProperty('--rand-angle', `${randAngle}deg`);
                 cell.style.setProperty('--rand-x', `${randX}px`);
@@ -119,12 +124,22 @@ document.addEventListener('DOMContentLoaded', function() {
         overlay.classList.add('shrinking');
         overlay.classList.remove('expanding');
 
+        // Determinar límites de la grilla de forma dinámica
+        let maxRow = 0;
+        let maxCol = 0;
+        pieces.forEach(piece => {
+            const r = parseInt(piece.getAttribute('data-row')) || 0;
+            const c = parseInt(piece.getAttribute('data-col')) || 0;
+            if (r > maxRow) maxRow = r;
+            if (c > maxCol) maxCol = c;
+        });
+
         pieces.forEach(piece => {
             const r = parseInt(piece.getAttribute('data-row'));
             const c = parseInt(piece.getAttribute('data-col'));
             
-            // Retraso escalonado (stagger) en reversa (de abajo-derecha a arriba-izquierda)
-            const delay = ((3 - r) + (4 - c)) * 40;
+            // Retraso escalonado (stagger) en reversa adaptable
+            const delay = ((maxRow - r) + (maxCol - c)) * 40;
 
             const rx = piece.style.getPropertyValue('--rand-x');
             const ry = piece.style.getPropertyValue('--rand-y');

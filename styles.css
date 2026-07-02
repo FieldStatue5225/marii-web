@@ -593,8 +593,7 @@ body.green-theme .navbar {
     z-index: 99999;
     pointer-events: none;
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    /* Columnas y filas dinámicas por JS (adaptables a móvil/escritorio) */
     background-color: transparent;
     overflow: hidden;
 }
