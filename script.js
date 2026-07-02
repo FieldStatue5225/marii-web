@@ -1910,6 +1910,14 @@ function initMorfosintacticoGames() {
                 { text: "Un niño corre muy rápido hacia un gran charco de agua sin frenar. 🏃‍♂️💦", question: "¿Qué pasará después?", options: ["Se va a mojar y salpicar todo", "Se quedará seco", "El charco desaparecerá"], correct: "Se va a mojar y salpicar todo", speech: "Un niño corre hacia un charco de agua sin frenar. ¿Qué pasará después?", success: "¡Excelente! Si pisas fuerte el agua, te mojas y salpicas.", error: "No. Si corre y salta al charco, se mojará inevitablemente." },
                 { text: "Dejas un vaso con helado de chocolate directo bajo el sol en verano. ☀️🍦", question: "¿Qué pasará después?", options: ["El helado se derretirá", "Se congelará más", "Se convertirá en manzana"], correct: "El helado se derretirá", speech: "Dejas un vaso con helado bajo el sol. ¿Qué pasará después?", success: "¡Muy bien! El calor del sol derrite los helados.", error: "No. El sol entrega calor, por lo que se va a derretir." }
             ]
+        },
+        "seccion-manejo-topicos": {
+            type: "quiz",
+            title: "Demo: Manejo de Tópicos",
+            examples: [
+                { text: "Tu amigo te está hablando de dinosaurios y tú de repente le dices: '¡Ayer comí pizza!' 🦖🍕", question: "¿Qué hiciste con el tema?", options: ["Cambiaste el tema sin avisar", "Mantuviste el tema de dinosaurios", "Escuchaste con atención"], correct: "Cambiaste el tema sin avisar", speech: "Tu amigo te habla de dinosaurios y tú dices ayer comí pizza. ¿Qué hiciste con el tema?", success: "¡Muy bien! Cambiar de tema repentinamente puede confundir al oyente.", error: "No. El tema era dinosaurios, al hablar de pizza cambiaste bruscamente el tema." },
+                { text: "Alguien te dice: 'Me gustan mucho los perros'. 🐶", question: "¿Qué le respondes para mantener el tema?", options: ["¿Cuál es tu raza de perro favorita?", "A mí me gusta andar en bicicleta", "Mañana va a llover mucho"], correct: "¿Cuál es tu raza de perro favorita?", speech: "Alguien dice que le gustan los perros. ¿Qué le respondes para mantener el tema?", success: "¡Excelente! Hacer una pregunta relacionada ayuda a mantener la conversación fluida.", error: "No. Esa respuesta no se relaciona con los perros y corta la conversación." }
+            ]
         }
     };
 
