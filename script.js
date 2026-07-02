@@ -1902,6 +1902,14 @@ function initMorfosintacticoGames() {
                 { text: "Dicho: '¡Esa torta me costó un ojo de la cara!' 👁️💰", question: "¿Qué significa realmente?", options: ["Que era extremadamente cara", "Que tuvo que dar su ojo físico", "Que estaba muy barata"], correct: "Que era extremadamente cara", speech: "¡Esa torta me costó un ojo de la cara! ¿Qué significa realmente?", success: "¡Excelente! Significa que el precio era muy elevado.", error: "No, es una metáfora. Nadie da sus ojos por una torta." },
                 { text: "Dicho: '¡Se me puso la piel de gallina!' 🐔🥶", question: "¿Qué significa realmente?", options: ["Que sintió frío o mucho susto", "Que le crecieron plumas", "Que se convirtió en gallina"], correct: "Que sintió frío o mucho susto", speech: "¡Se me puso la piel de gallina! ¿Qué significa realmente?", success: "¡Muy bien! Es la reacción de la piel al frío o miedo.", error: "No es literal. ¿Cuándo tiembla nuestra piel de esa forma?" }
             ]
+        },
+        "seccion-que-pasara": {
+            type: "quiz",
+            title: "Demo: ¿Qué Pasará?",
+            examples: [
+                { text: "Un niño corre muy rápido hacia un gran charco de agua sin frenar. 🏃‍♂️💦", question: "¿Qué pasará después?", options: ["Se va a mojar y salpicar todo", "Se quedará seco", "El charco desaparecerá"], correct: "Se va a mojar y salpicar todo", speech: "Un niño corre hacia un charco de agua sin frenar. ¿Qué pasará después?", success: "¡Excelente! Si pisas fuerte el agua, te mojas y salpicas.", error: "No. Si corre y salta al charco, se mojará inevitablemente." },
+                { text: "Dejas un vaso con helado de chocolate directo bajo el sol en verano. ☀️🍦", question: "¿Qué pasará después?", options: ["El helado se derretirá", "Se congelará más", "Se convertirá en manzana"], correct: "El helado se derretirá", speech: "Dejas un vaso con helado bajo el sol. ¿Qué pasará después?", success: "¡Muy bien! El calor del sol derrite los helados.", error: "No. El sol entrega calor, por lo que se va a derretir." }
+            ]
         }
     };
 
